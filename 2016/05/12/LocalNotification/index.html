@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="iOS本地通知,UILocalNotification" />
 
 
 
@@ -84,15 +84,20 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="零度空间">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="前言推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。快捷点赞，如微博点赞功能效果图大家可以先看下：赞.gif首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：1234567891011">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS本地通知UILocalNotification">
+<meta property="og:url" content="http://yoursite.com/2016/05/12/LocalNotification/index.html">
 <meta property="og:site_name" content="零度空间">
-<meta property="og:description">
+<meta property="og:description" content="前言推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。快捷点赞，如微博点赞功能效果图大家可以先看下：赞.gif首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：1234567891011">
+<meta property="og:image" content="http://yoursite.com/../images/LocalNotification/DraggedImage.png">
+<meta property="og:image" content="http://yoursite.com/../images/LocalNotification/star.gif">
+<meta property="og:image" content="http://yoursite.com/../images/LocalNotification/comment.gif">
+<meta property="og:updated_time" content="2016-05-12T09:50:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="零度空间">
-<meta name="twitter:description">
+<meta name="twitter:title" content="iOS本地通知UILocalNotification">
+<meta name="twitter:description" content="前言推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。快捷点赞，如微博点赞功能效果图大家可以先看下：赞.gif首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：1234567891011">
+<meta name="twitter:image" content="http://yoursite.com/../images/LocalNotification/DraggedImage.png">
 
 
 
@@ -110,7 +115,7 @@
   };
 </script>
 
-  <title> 零度空间 </title>
+  <title> iOS本地通知UILocalNotification | 零度空间 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,9 +136,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -210,9 +213,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -232,10 +235,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/05/12/LocalNotification/" itemprop="url">
-                  iOS本地通知UILocalNotification
-                </a>
+                iOS本地通知UILocalNotification
               
             
           </h1>
@@ -275,9 +275,7 @@
       
 
       
-        
-          
-            <p><img src="../images/LocalNotification/DraggedImage.png" alt=""><br><em>前言</em><br>推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。<br><em>快捷点赞，如微博点赞功能</em><br>效果图大家可以先看下：<br><img src="../images/LocalNotification/star.gif" alt="">赞.gif<br>首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//创建消息上面要添加的动作</span><br><span class="line">UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];</span><br><span class="line">action1.identifier = kNotificationActionIdentifileStar;</span><br><span class="line">action1.title = @<span class="string">"赞"</span>;</span><br><span class="line">//当点击的时候不启动程序，在后台处理</span><br><span class="line">action1.activationMode = UIUserNotificationActivationModeBackground;</span><br><span class="line">//需要解锁才能处理(意思就是如果在锁屏界面收到通知，并且iPhone设置了屏幕锁，点击了赞不会直接进入我们的回调进行处理，而是需要输入屏幕锁密码之后才进入我们的回调)，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；</span><br><span class="line">action1.authenticationRequired = YES;</span><br><span class="line">/*  destructive属性设置后，在通知栏或锁屏界面左划，按钮颜色会变为红色</span><br><span class="line"> 如果两个按钮均设置为YES，则均为红色（略难看）</span><br><span class="line"> 如果两个按钮均设置为NO，即默认值，则第一个为蓝色，第二个为浅灰色</span><br><span class="line"> 如果一个YES一个NO，则都显示对应的颜色，即红蓝双色 (CP色)。</span><br><span class="line"> */</span><br><span class="line">action1.destructive = NO;</span><br></pre></td></tr></table></figure></p>
+        <p><img src="../images/LocalNotification/DraggedImage.png" alt=""><br><em>前言</em><br>推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。<br><em>快捷点赞，如微博点赞功能</em><br>效果图大家可以先看下：<br><img src="../images/LocalNotification/star.gif" alt="">赞.gif<br>首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//创建消息上面要添加的动作</span><br><span class="line">UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];</span><br><span class="line">action1.identifier = kNotificationActionIdentifileStar;</span><br><span class="line">action1.title = @<span class="string">"赞"</span>;</span><br><span class="line">//当点击的时候不启动程序，在后台处理</span><br><span class="line">action1.activationMode = UIUserNotificationActivationModeBackground;</span><br><span class="line">//需要解锁才能处理(意思就是如果在锁屏界面收到通知，并且iPhone设置了屏幕锁，点击了赞不会直接进入我们的回调进行处理，而是需要输入屏幕锁密码之后才进入我们的回调)，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；</span><br><span class="line">action1.authenticationRequired = YES;</span><br><span class="line">/*  destructive属性设置后，在通知栏或锁屏界面左划，按钮颜色会变为红色</span><br><span class="line"> 如果两个按钮均设置为YES，则均为红色（略难看）</span><br><span class="line"> 如果两个按钮均设置为NO，即默认值，则第一个为蓝色，第二个为浅灰色</span><br><span class="line"> 如果一个YES一个NO，则都显示对应的颜色，即红蓝双色 (CP色)。</span><br><span class="line"> */</span><br><span class="line">action1.destructive = NO;</span><br></pre></td></tr></table></figure></p>
 <p>关于参数的意思，上方代码中已经有详细的解释了，那么该动作按钮创建完之后，我们需要的就是创建动作集合，并进行注册，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//创建动作(按钮)的类别集合</span><br><span class="line">UIMutableUserNotificationCategory *category = [[UIMutableUserNotificationCategory alloc] init];</span><br><span class="line">//这组动作的唯一标示（kNotificationCategoryIdentifile为我定义的一个宏，可自行定义）</span><br><span class="line">category.identifier = kNotificationCategoryIdentifile;</span><br><span class="line">//最多支持两个，如果添加更多的话，后面的将被忽略</span><br><span class="line">[category <span class="built_in">set</span>Actions:@[action1, action2] <span class="keyword">for</span>Context:(UIUserNotificationActionContextMinimal)];</span><br><span class="line">//创建UIUserNotificationSettings，并设置消息的显示类类型</span><br><span class="line">UIUserNotificationSettings *uns = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:[NSSet <span class="built_in">set</span>WithObject:category]];</span><br><span class="line"></span><br><span class="line">[[UIApplication sharedApplication] registerUserNotificationSettings:uns];</span><br></pre></td></tr></table></figure></p>
 <p>到这里便能实现推送中快捷点赞的功能了。当然我们还会注意到iPhone中短信有快捷回复功能，这个是怎么实现的呢。 客官请往下继续看。<br><em>快捷回复，如短信中下拉快捷回复功能</em><br>老规矩，还是先上效果图，如下：<br><img src="../images/LocalNotification/comment.gif" alt="">评论.gif<br>这个评论的动作和上面的“赞“只是多了一个属性的设置，即”behavior“。代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//第二个动作</span><br><span class="line">UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];</span><br><span class="line">action2.identifier = kNotificationActionIdentifileComment;</span><br><span class="line">action2.title = @<span class="string">"评论"</span>;</span><br><span class="line">//当点击的时候不启动程序，在后台处理</span><br><span class="line">action2.activationMode = UIUserNotificationActivationModeBackground;</span><br><span class="line">//设置了behavior属性为 UIUserNotificationActionBehaviorTextInput 的话，则点击了该按钮会出现输入框供输入</span><br><span class="line">action2.behavior = UIUserNotificationActionBehaviorTextInput;</span><br></pre></td></tr></table></figure></p>
 <p>细心的朋友可能注意到我在快捷回复输入内容时候，输入框右边的按钮名字和短信的快捷回复按钮名字并不一样（短信的为”发送“，该Demo为”评论“），这个按钮我们也是可以进行自定义的，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//这个字典定义了当点击了评论按钮后，输入框右侧的按钮名称，如果不设置该字典，则右侧按钮名称默认为 “发送”</span><br><span class="line">action2.parameters = @UIUserNotificationTextInputActionButtonTitleKey: @<span class="string">"评论"</span>;</span><br></pre></td></tr></table></figure></p>
@@ -287,16 +285,19 @@
 <p><strong>通知回调2种情况：</strong><br><em>1.单机本地通知启动APP</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)application:(UIApplication *)app didFinishLaunchingWithOptions:(NSDictionary *)launchOptions </span><br><span class="line"></span><br><span class="line">    UILocalNotification *<span class="built_in">local</span>Notification =</span><br><span class="line"></span><br><span class="line">        [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">local</span>Notification) </span><br><span class="line"></span><br><span class="line">       //load your controller</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><em>2.应用程序处于活动状态，然后在 AppDelegate 中添加此代码</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   -(void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notification </span><br><span class="line"></span><br><span class="line">        //load your controller</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -304,135 +305,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/05/11/FirstBlog/" rel="next" title="使用HEXO在github上搭建个人博客">
+                <i class="fa fa-chevron-left"></i> 使用HEXO在github上搭建个人博客
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/05/11/FirstBlog/" itemprop="url">
-                  使用HEXO在github上搭建个人博客
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-11T13:17:07+08:00" content="2016-05-11">
-              2016-05-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>三步完成免费个人博客搭建， 这是一篇小白也能看懂的文章，本文主要针对OS X ，Windows 除了软件安装方式和命令有些区别（装了git bash也一样），其他基本一样。<br>你可能经常会看到类似于这样的博客：<br><img src="../images/FirstBlog/DraggedImage.png" alt="">vno<br><img src="../images/FirstBlog/DraggedImage-1.png" alt="">这是打酱油的</p>
-<p>在4分50秒以后你也能够有一个类似的blog了。<br>有简书了为什么还需要个人博客呢，除了装逼，当然还有个人博客更加自由，不受任何第三方管理，并且还能够自定义成自己喜欢的样子。还有，如果你是个程序猿，那就更没有理由不自己搭建一个独立博客了。<br>好了，不BB了。抓紧时间开始。<br><strong>1. 创建Github 域名和空间</strong><br><em>1.1注册</em><br>首先你需要注册一个<a href="https://github.com/" target="_blank" rel="external">Github</a>账号，已有的可以下翻去1.2 创建仓库，注意username，这会影响到你的域名，你的域名将会是 username.github.io ，所以认真的取个名字吧。<br><img src="../images/FirstBlog/DraggedImage-2.png" alt="">Create account<br>注册过程可能需要验证你的邮箱，其他就不在赘述。<br><em>1.2 创建仓库</em><br>然后需要创建一个仓库(repository) 来存储我们的网站，点击首页任意位置出现的 New repository按钮创建仓库, Respository name 中的username.github.io 的username 一定与前面的Owner 一致，记住你的username下面会用到。<br><img src="../images/FirstBlog/DraggedImage-3.png" alt="">Create reponsitory<br>第一步就已经完成了，下面是安装。<br><strong>2. 安装</strong><br><a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="external">Hexo</a> 可以说是目前最流行的博客框架了，基于Nodejs，更多信息可以google，下面需要安装的工具包括 Git，Nodejs，Hexo。（Windows 用户自行搜索这些工具，直接安装即可，试过基本没啥问题）<br><em>1.安装Git</em><br>我就想问问，还有谁没装Git么？<br>// 如果已安装HomeBrew 无需执行此行<br>$ /usr/bin/ruby -e “$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install" target="_blank" rel="external">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)”<br>$ brew install git   // 安装Git<br>你也可以通过下载<a href="https://sourceforge.net/projects/git-osx-installer/" target="_blank" rel="external">安装程序</a>来安装  </p>
-<p><em>2.安装Nodejs</em><br>先安装nvm，这是Nodejs版本管理器，可以轻松切换Nodejs版本。 这里有两 种方式安装。如果使用curl的方式安装，安装完成之后一定要重启终端。  </p>
-<ol>
-<li>Homebrew 安装方式，此安装方式无需重启<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   $ brew install nvm  </span><br><span class="line">$ mkdir /.nvm</span><br><span class="line">$ <span class="built_in">export</span> NVM_DIR=/.nvm</span><br><span class="line">$ . $(brew --prefix nvm)/nvm.sh</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>2 . curl安装方式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl https://raw.github.com/creationix/nvm/master/install.sh | sh</span><br></pre></td></tr></table></figure></p>
-<p>安装完成后，重启终端 并执行下列命令即可安装 Node.js。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm install 4</span><br></pre></td></tr></table></figure></p>
-<p><em>3. 安装Hexo</em><br>以上所有都安装完成之后再安装Hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install hexo-cli -g</span><br></pre></td></tr></table></figure></p>
-<p>所有必须工具已经安装完成，下面我们就可以生成博客，上传至我们的Github 仓库了。<br><strong>3. 编写，发布</strong><br>接下来我们需要用Hexo初始化一个博客，然后更改一些自定义的配置，或者加上自己喜欢的主题，写上第一篇文章，然后发布到自己的个人Github网站(username.github.io)。<br><em>1.创建博客</em><br>将下面的 username 替换成你自己的username(其实也无所谓，作者强迫症)，执行成功后，会创建出一个名为 username.github.io 的文件夹。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init username.github.io</span><br></pre></td></tr></table></figure></p>
-<p><em>2.更改配置</em><br>主题安装<br>为了使博客不太难看，我们需要安装一个主题，切换至刚刚生成的Hexo 目录，安装主题<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> username.github.io</span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
-<p>这里选了一个极简的主题，也是Hexo众多主题中最受欢迎的一个。上面出现的喵神的主题 在<a href="https://github.com/monniya/hexo-theme-new-vno" target="_blank" rel="external">这里</a>。Hexo也有<a href="https://hexo.io/themes/" target="_blank" rel="external">更多主题</a>供你选择。<br>基础配置：打开文件位置username.github.io/config.yml修改几个键值对，下面把几个必须设置的列出来按需求修改，记得保存， 还有注意配置的键值之间一定要有空格。<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="external">更多设置</a>…<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">title: dimsky 的 9 维空间    //你博客的名字</span><br><span class="line">author: dimsky  //你的名字</span><br><span class="line">language: zh-Hans    //语言 中文</span><br><span class="line">theme: next   //刚刚安装的主题名称</span><br><span class="line">deploy:</span><br><span class="line"><span class="built_in">type</span>: git    //使用Git 发布</span><br><span class="line">repo: https://github.com/username/username.github.io.git    // 刚创建的Github仓库</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure></p>
-<p>主题配置：<br>主题配置文件在username.github.io/themes/next/config.yml中修改，这里略过。<a href="http://theme-next.iissnan.com/getting-started.html#theme-settings" target="_blank" rel="external">设置详情</a>  </p>
-<p><em>3.写文章</em><br>所有基础框架都已经创建完成，接下来可以开始写你的第一篇博客了<br>在username.github.io/source/posts下创建你的第一个博客吧，例如，创建一个名为FirstNight.md的文件，用Markdown大肆发挥吧，注意保存。  </p>
-<h2 id="如："><a href="#如：" class="headerlink" title="如："></a>如：</h2><h2 id="title-First-Night"><a href="#title-First-Night" class="headerlink" title=" title: First Night"></a> title: First Night</h2><blockquote>
-<p>我有一头<strong>小毛驴</strong>，可是我从来都不骑。  </p>
-</blockquote>
-<p><em>4.测试</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s -g</span><br></pre></td></tr></table></figure></p>
-<p>测试服务启动，你可以在浏览器中输入<a href="https://localhost:4000" target="_blank" rel="external">https://localhost:4000</a> 访问了。  </p>
-<p><em>5.安装hexo-deployer-git自动部署发布工具 </em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
-<p><em>6.发布</em><br>测试没问题后，我们就生成静态网页文件发布至我们的Github pages 中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure></p>
-<p>如果这是你的第一次，终端会让你输入Github 的邮箱和密码，正确输入后，骚等片刻，就会把你的博客上传至Github 了。以后在每次把博客写完后，执行一下这个命令就可以直接发布了，灰常苏胡。<br><em>7. 5分钟应该快到了</em><br>是不是很快，恭喜你能走到这一步，你的博客已经完成了，在浏览器中输入<a href="http://dimsky.github.io" target="_blank" rel="external">http://dimsky.github.io</a> 就能够访问了。<br>最后应该是类似这个样子的<br><img src="../images/FirstBlog/DraggedImage-4.png" alt=""><br>时间有限，这里只说到了简单的博客创建流程，还有很多很好玩的配置与插件。比如说评论、标签、统计等等。慢慢的完善你的专属博客吧。<br><strong>更多</strong><br><a href="https://hexo.io/themes/" target="_blank" rel="external">更多主题</a><br><a href="https://hexo.io/plugins/" target="_blank" rel="external">更多插件</a><br><strong>文章图片的存放</strong><br>　　想要在文章中插入图片的话，可以按照Markdown语法来插入，格式为!【图片名称】(图片地址)。图片的存放有两种方式：在本地D:\Hexo\source<code>目录下新建一个存放图片的文件夹，比如images</code>，然后把想要插入的图片放在里面，插入图片的路径；第二种方法是把图片上传到网络，然后插入图片路径。推荐使用第二种。<br>　　推荐两个比较好用的：<br>•    <a href="http://tuchuang.org/" target="_blank" rel="external">图床</a>；无需注册，方便快捷。<br>•    <a href="https://portal.qiniu.com/signup?code=3lglas6pgi2qa" target="_blank" rel="external">七牛云存储</a>；需要注册，免费，空间大，速度快。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -440,6 +338,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -459,8 +361,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -496,6 +407,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -592,6 +514,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
