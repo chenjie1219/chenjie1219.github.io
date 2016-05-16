@@ -1064,6 +1064,19 @@ color
 .post-list li:hover a {
   color: #88acdb;
 }
+.ui-tooltip {
+  padding: 6px;
+  max-width: 30em;
+  -webkit-box-shadow: 0 0 0.8em rgba(0,0,0,0.6);
+  box-shadow: 0 0 0.8em rgba(0,0,0,0.6);
+  color: #fff;
+  font-family: "Lucida Grande", Verdana, "Helvetica Neue", Arial, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  font-size: 0.9em;
+  background: rgba(0,0,0,0.65);
+}
+body .ui-tooltip {
+  border: 1px solid #fff;
+}
 .pace .pace-progress {
   background: #77b6ff;
   -webkit-box-shadow: 0 0 10px rgba(119,182,255,0.7);
