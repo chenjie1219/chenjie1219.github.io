@@ -3,24 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角) | 零度空间</title>
+  <title>ios tableview的展开与收缩 | 零度空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="• 情景:在很多中情况下我们需要设置UIView或者UIImageView的圆角以及边框等,我们通常的做法是:◦ 1.代码创建的控件:利用代码设置cornerRadius(别忘记设置裁剪哦masksToBounds = YES)和borderWidth属性;◦ 2.在xib中你还有一种做法就是设置Key Paht;(注意:这里虽然设置了我们并不能立即在xib中看到设置后圆角效果,这是本文重点)">
+  <meta name="description" content="tableview的展开与收缩一般用来展示分组信息和cell固定尺寸下放不下的文字或者图片内容.下面用一种改变datasource然后刷新tableview来做展开与收缩.一般tableview的操作都与datasource有关,复用重用一般是datasource出了问题,导致刷新出错.
+1234567891011121314151617181920212223242526272829303132">
 <meta property="og:type" content="article">
-<meta property="og:title" content="神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)">
-<meta property="og:url" content="http://yoursite.com/2016/05/12/IB_DESIGNABLE/index.html">
+<meta property="og:title" content="ios tableview的展开与收缩">
+<meta property="og:url" content="http://yoursite.com/2016/05/26/tableView expand/index.html">
 <meta property="og:site_name" content="零度空间">
-<meta property="og:description" content="• 情景:在很多中情况下我们需要设置UIView或者UIImageView的圆角以及边框等,我们通常的做法是:◦ 1.代码创建的控件:利用代码设置cornerRadius(别忘记设置裁剪哦masksToBounds = YES)和borderWidth属性;◦ 2.在xib中你还有一种做法就是设置Key Paht;(注意:这里虽然设置了我们并不能立即在xib中看到设置后圆角效果,这是本文重点)">
-<meta property="og:image" content="http://i4.buimg.com/d1968173057d25f5.png">
-<meta property="og:image" content="http://i4.buimg.com/c3f097cc0ba77ef4.gif">
-<meta property="og:image" content="http://i4.buimg.com/ffbff24aa8a7d8b1.png">
-<meta property="og:image" content="http://i4.buimg.com/d44c44f649381cd4.png">
-<meta property="og:image" content="http://i4.buimg.com/b8e52010a0ddd7b7.gif">
-<meta property="og:updated_time" content="2016-05-13T10:54:22.000Z">
+<meta property="og:description" content="tableview的展开与收缩一般用来展示分组信息和cell固定尺寸下放不下的文字或者图片内容.下面用一种改变datasource然后刷新tableview来做展开与收缩.一般tableview的操作都与datasource有关,复用重用一般是datasource出了问题,导致刷新出错.
+1234567891011121314151617181920212223242526272829303132">
+<meta property="og:image" content="http://i4.buimg.com/0b096c30fcb97a3c.png">
+<meta property="og:updated_time" content="2016-05-26T09:44:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)">
-<meta name="twitter:description" content="• 情景:在很多中情况下我们需要设置UIView或者UIImageView的圆角以及边框等,我们通常的做法是:◦ 1.代码创建的控件:利用代码设置cornerRadius(别忘记设置裁剪哦masksToBounds = YES)和borderWidth属性;◦ 2.在xib中你还有一种做法就是设置Key Paht;(注意:这里虽然设置了我们并不能立即在xib中看到设置后圆角效果,这是本文重点)">
-<meta name="twitter:image" content="http://i4.buimg.com/d1968173057d25f5.png">
+<meta name="twitter:title" content="ios tableview的展开与收缩">
+<meta name="twitter:description" content="tableview的展开与收缩一般用来展示分组信息和cell固定尺寸下放不下的文字或者图片内容.下面用一种改变datasource然后刷新tableview来做展开与收缩.一般tableview的操作都与datasource有关,复用重用一般是datasource出了问题,导致刷新出错.
+1234567891011121314151617181920212223242526272829303132">
+<meta name="twitter:image" content="http://i4.buimg.com/0b096c30fcb97a3c.png">
   
     <link rel="alternative" href="/atom.xml" title="零度空间" type="application/atom+xml">
   
@@ -241,11 +240,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-IB_DESIGNABLE" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-tableView expand" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/12/IB_DESIGNABLE/" class="article-date">
-      <time datetime="2016-05-12T10:30:08.000Z" itemprop="datePublished">2016-05-12</time>
+      <a href="/2016/05/26/tableView expand/" class="article-date">
+      <time datetime="2016-05-26T09:39:24.000Z" itemprop="datePublished">2016-05-26</time>
 </a>
     </div>
   
@@ -258,7 +257,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)
+      ios tableview的展开与收缩
     </h1>
   
 
@@ -275,18 +274,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>• 情景:在很多中情况下我们需要设置UIView或者UIImageView的圆角以及边框等,我们通常的做法是:<br>◦ 1.代码创建的控件:利用代码设置cornerRadius(别忘记设置裁剪哦masksToBounds = YES)和borderWidth属性;<br>◦ 2.在xib中你还有一种做法就是设置Key Paht;(注意:这里虽然设置了我们并不能立即在xib中看到设置后圆角效果,这是本文重点)  </p>
-<p><img src="http://i4.buimg.com/d1968173057d25f5.png" alt="">设置Key Path  </p>
-<p>◦ 3.设置圆形图片的话,还可以画一个圆形图片,详情可以移步这里;<br>• 下面以在xib中设置圆角为例,说明IB_DESIGNABLE和IBInspectable的神奇之处:  </p>
-<p>IB_DESIGNABLE 的具体使用方法:<br>• IB_DESIGNABLE的宏的功能就是让XCode动态渲染出该类图形化界面;<br>• 使用IB_DESIGNABLE的方式，把该宏加在自定义类的前面;<br>• 1.自定义一个UIview—YCCustomView<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"></span><br><span class="line">// 在定义类的前面加上IB_DESIGNABLE宏</span><br><span class="line">IB_DESIGNABLE</span><br><span class="line"></span><br><span class="line">@interface YCCustomView : UIView</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
-<p>• 2.在xib中拖一个UIView,并修改类名为YCCustomView<br>◦ 这里还是利用key Paht设置圆角,即可动态刷新我们的自定义View,效果图如下:  </p>
-<p><img src="http://i4.buimg.com/c3f097cc0ba77ef4.gif" alt="">IB_DESIGNABLE  </p>
-<p>◦ 说明:别忘记设置view的class为我们自定义的哦  </p>
-<p><img src="http://i4.buimg.com/ffbff24aa8a7d8b1.png" alt="">说明<br>IBInspectable 的具体使用方法:<br>• 我们在上面已经知道了IB_DESIGNABLE的使用,我们能立即看到设置的圆角效果(动态刷新),但是有一个问题,我们通过设置Key Path来设置是不是很麻烦,下面我们通过一种更加直观的方式来设置,如下:</p>
-<p><img src="http://i4.buimg.com/d44c44f649381cd4.png" alt="">默认是没有这些选项的,不信你瞅瞅你的.<br>废话不多说,直接上代码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"></span><br><span class="line">IB_DESIGNABLE  // 动态刷新</span><br><span class="line"></span><br><span class="line">@interface YCCustomView : UIView</span><br><span class="line"></span><br><span class="line">// 注意: 加上IBInspectable就可以可视化显示相关的属性哦</span><br><span class="line">/** 可视化设置边框宽度 */</span><br><span class="line">@property (nonatomic, assign)IBInspectable CGFloat borderWidth;</span><br><span class="line">/** 可视化设置边框颜色 */</span><br><span class="line">@property (nonatomic, strong)IBInspectable UIColor *borderColor;</span><br><span class="line"></span><br><span class="line">/** 可视化设置圆角 */</span><br><span class="line">@property (nonatomic, assign)IBInspectable CGFloat cornerRadius;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
-<p>重写set方法,根据可视化设置的值设置相关的属性<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># import "YCCustomView.h"</span></span><br><span class="line"></span><br><span class="line">@implementation YCCustomView</span><br><span class="line"></span><br><span class="line">/**  *  设置边框宽度</span><br><span class="line"> *  *  @param borderWidth 可视化视图传入的值</span><br><span class="line"> */</span><br><span class="line">- (void)<span class="built_in">set</span>BorderWidth:(CGFloat)borderWidth </span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (borderWidth \&lt; 0) <span class="built_in">return</span>;</span><br><span class="line"></span><br><span class="line">	self.layer.borderWidth = borderWidth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**  *  设置边框颜色</span><br><span class="line"> *  *  @param borderColor 可视化视图传入的值</span><br><span class="line"> */</span><br><span class="line">- (void)<span class="built_in">set</span>BorderColor:(UIColor *)borderColor </span><br><span class="line"></span><br><span class="line">	self.layer.borderColor = borderColor.CGColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**  *  设置圆角</span><br><span class="line"> *  *  @param cornerRadius 可视化视图传入的值</span><br><span class="line"> */</span><br><span class="line">- (void)<span class="built_in">set</span>CornerRadius:(CGFloat)cornerRadius </span><br><span class="line"></span><br><span class="line">	self.layer.cornerRadius = cornerRadius;</span><br><span class="line">	self.layer.masksToBounds = cornerRadius \&gt; 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
-<p>• 效果演示  </p>
-<p><img src="http://i4.buimg.com/b8e52010a0ddd7b7.gif" alt="">IBInspectable</p>
+        <p>tableview的展开与收缩一般用来展示分组信息和cell固定尺寸下放不下的文字或者图片内容.<br>下面用一种改变datasource然后刷新tableview来做展开与收缩.<br>一般tableview的操作都与datasource有关,复用重用一般是datasource出了问题,导致刷新出错.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "ViewController.h"</span></span><br><span class="line"></span><br><span class="line">@interface ViewController ()&lt;UITableViewDelegate,UITableViewDataSource&gt;</span><br><span class="line">@property(nonatomic,retain)NSMutableArray *dataArr;</span><br><span class="line">@property(nonatomic,retain)UITableView *tableView;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">[super viewDidLoad];</span><br><span class="line">[self initSelf];</span><br><span class="line">[self preData];</span><br><span class="line">[self uiConfig];</span><br><span class="line">&#125;</span><br><span class="line">- (void)initSelf</span><br><span class="line">&#123;</span><br><span class="line">self.view.backgroundColor = [UIColor whiteColor];</span><br><span class="line">self.title = @<span class="string">"tableview的展开"</span>;</span><br><span class="line">self.automaticallyAdjustsScrollViewInsets = NO;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">- (void)preData</span><br><span class="line">&#123;</span><br><span class="line">_dataArr = [[NSMutableArray alloc]init];</span><br><span class="line"><span class="keyword">for</span> (int i = 1050; i&lt;1100; i++) &#123;</span><br><span class="line">NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];</span><br><span class="line">[dic  <span class="built_in">set</span>Value:[NSString stringWithFormat:@<span class="string">"第%d行:《大话西游》的结尾有句话，“你看那个人，好奇怪哟，象一条狗”。像条狗的人，是放弃了人间的男女情欢，无欲无念兢兢业业走在西天取经路上的至尊宝。他如你我这般，收起了脾气火气不再任性淘气，只顾奔波职场。人生百年，谁不曾大闹天宫，谁不曾头上紧箍，谁不曾爱上层楼，谁不曾孤单上路。"</span>,i] <span class="keyword">for</span>Key:@<span class="string">"row"</span>];</span><br><span class="line">[dic  <span class="built_in">set</span>Value:@<span class="string">"0"</span> <span class="keyword">for</span>Key:@<span class="string">"expand"</span>];</span><br><span class="line">[_dataArr addObject:dic];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">- (void)uiConfig</span><br><span class="line">&#123;</span><br><span class="line">_tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,64,375,667-64)];</span><br><span class="line">_tableView.delegate = self;</span><br><span class="line">_tableView.dataSource = self;</span><br><span class="line">//自适配cell的高度</span><br><span class="line">_tableView.estimatedRowHeight=213;</span><br><span class="line">_tableView.rowHeight=UITableViewAutomaticDimension;</span><br><span class="line">[self.view addSubview:_tableView];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">return</span> _dataArr.count;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">static NSString *cellid = @<span class="string">"cellid"</span>;</span><br><span class="line">UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellid];</span><br><span class="line"><span class="keyword">if</span> (!cell) &#123;</span><br><span class="line">cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellid];</span><br><span class="line">&#125;</span><br><span class="line">cell.selectionStyle = UITableViewCellSelectionStyleNone;</span><br><span class="line">cell.textLabel.text = self.dataArr[indexPath.row][@<span class="string">"row"</span>];</span><br><span class="line">cell.textLabel.textColor = [UIColor colorWithRed:(arc4random()%255)/255.f green:(arc4random()%255)/255.f blue:(arc4random()%255)/255.f alpha:1];</span><br><span class="line">cell.textLabel.font = [UIFont systemFontOfSize:15];</span><br><span class="line"></span><br><span class="line">NSString *expand = self.dataArr[indexPath.row][@<span class="string">"expand"</span>] ;</span><br><span class="line"><span class="keyword">if</span> ([expand isEqualToString:@<span class="string">"1"</span>] ) &#123;</span><br><span class="line">cell.textLabel.numberOfLines = 0;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">cell.textLabel.numberOfLines = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">return</span> cell;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">NSString *expand =_dataArr[indexPath.row][@<span class="string">"expand"</span>];</span><br><span class="line"></span><br><span class="line">//    <span class="keyword">for</span> (int i = 0; i&lt;_dataArr.count; i++) &#123;</span><br><span class="line">//        <span class="keyword">if</span> (i!=indexPath.row) &#123;</span><br><span class="line">//            _dataArr[i][@<span class="string">"expand"</span>] = @<span class="string">"0"</span>;</span><br><span class="line">//        &#125;</span><br><span class="line">//    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ([expand isEqualToString:@<span class="string">"1"</span>]) &#123;</span><br><span class="line">_dataArr[indexPath.row][@<span class="string">"expand"</span>] = @<span class="string">"0"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">_dataArr[indexPath.row][@<span class="string">"expand"</span>] = @<span class="string">"1"</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">NSIndexPath *path=[NSIndexPath indexPathForRow:indexPath.row <span class="keyword">in</span>Section:0];</span><br><span class="line">[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path,nil] withRowAnimation:UITableViewRowAnimationNone];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般不太写reloadata,全局刷新跟UI有关,部分刷新方法都是刷新某个section或者刷新某个indexPath.row<br><img src="http://i4.buimg.com/0b096c30fcb97a3c.png" alt=""></p>
 
       
     </div>
@@ -295,13 +285,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/12/IB_DESIGNABLE/">神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)</a></p>
+        <p><span>本文标题:</span><a href="/2016/05/26/tableView expand/">ios tableview的展开与收缩</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Jason</a></p>
-        <p><span>发布时间:</span>2016-05-12, 18:30:08</p>
-        <p><span>最后更新:</span>2016-05-13, 18:54:22</p>
+        <p><span>发布时间:</span>2016-05-26, 17:39:24</p>
+        <p><span>最后更新:</span>2016-05-26, 17:44:38</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/12/IB_DESIGNABLE/" title="神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)">http://yoursite.com/2016/05/12/IB_DESIGNABLE/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/05/12/IB_DESIGNABLE/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/26/tableView expand/" title="ios tableview的展开与收缩">http://yoursite.com/2016/05/26/tableView expand/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/05/26/tableView expand/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -313,16 +303,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/05/26/NSArray Remove duplicate/">
-                    iOS去除数组中重复数据的几种方法
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/05/12/LocalNotification/">
-                    iOS本地通知UILocalNotification
+                <a href="/2016/05/26/NSArray Remove duplicate/">
+                    iOS去除数组中重复数据的几种方法
                 </a>
             </div>
         
@@ -390,7 +374,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)　| 零度空间　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"ios tableview的展开与收缩　| 零度空间　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -406,7 +390,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/12/IB_DESIGNABLE/" data-title="神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)" data-url="http://yoursite.com/2016/05/12/IB_DESIGNABLE/"></div>
+    <div class="ds-thread" data-thread-key="2016/05/26/tableView expand/" data-title="ios tableview的展开与收缩" data-url="http://yoursite.com/2016/05/26/tableView expand/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -430,15 +414,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/26/NSArray Remove duplicate/" title="上一篇: iOS去除数组中重复数据的几种方法">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/05/12/LocalNotification/" title="下一篇: iOS本地通知UILocalNotification">
+            <a href="/2016/05/26/NSArray Remove duplicate/" title="下一篇: iOS去除数组中重复数据的几种方法">
                 <i class="fa fa-angle-right"></i>
             </a>
         
