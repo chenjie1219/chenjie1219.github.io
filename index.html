@@ -241,6 +241,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-change button clickScope" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/26/change button clickScope/" class="article-date">
+      <time datetime="2016-05-26T11:22:39.000Z" itemprop="datePublished">2016-05-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/26/change button clickScope/">在不改变按钮尺寸的前提下,扩大按钮的点击范围</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>需求:</strong><br>按钮尺寸不变,按钮能够接收点击事件的范围变大</p>
+<p><strong>分析:</strong></p>
+<p>其实挺简单,WWDC 2012 Session中提到了一种解决方式。它重写了按钮中的pointInside方法,临时改变按钮的Inset来扩大点击事件的接收范围,来判断触摸点是否在按钮的点击热区(接收有效点击事件,触发按钮的点击方法)内<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//官方在视频中给出的示例源码</span><br><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)withEvent</span><br><span class="line">&#123;</span><br><span class="line">CGFloat widthDelta = 44.0 - bounds.size.width;</span><br><span class="line">CGFloat heightDelta = 44.0 - bounds.size.height;</span><br><span class="line">bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);</span><br><span class="line"><span class="built_in">return</span> CGRectContainsPoint(bounds, point);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>44是人机交互设计指南推荐的点击范围,不过既然要改,咱们就改自由点,由咱们来控制多好</p>
+<p>分析完了,开撸</p>
+<p><strong>code:</strong><br>我自定义一个按钮类YCBigClickAreaBtn,实现如下</p>
+<p><strong>.h 文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"></span><br><span class="line">@interface YCBigClickAreaBtn : UIButton</span><br><span class="line"></span><br><span class="line">/// 1.想要放大 btn 的点击热区的范围,注意,只在 btn 的父视图范围内有效</span><br><span class="line">/// 2.这个范围是按钮的整体宽度,如果需要以中心点开始计算,则需要*2</span><br><span class="line">@property (nonatomic,assign) CGFloat clickAreaRadious;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><strong>.m 文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "YCBigClickAreaBtn.h"</span></span><br><span class="line"></span><br><span class="line">@implementation YCBigClickAreaBtn</span><br><span class="line"></span><br><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event</span><br><span class="line">&#123;</span><br><span class="line">CGRect bounds = self.bounds;</span><br><span class="line">CGFloat widthDelta = MAX(self.clickAreaRadious - bounds.size.width, 0);</span><br><span class="line">CGFloat heightDelta = MAX(self.clickAreaRadious - bounds.size.height, 0);</span><br><span class="line">bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);</span><br><span class="line"><span class="built_in">return</span> CGRectContainsPoint(bounds, point);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><strong>调用</strong></p>
+<p>YCBigClickAreaBtn *tickBtn = [[YCBigClickAreaBtn alloc] init];</p>
+<p>//扩大按钮的点击热区,并且保持最小50<br>tickBtn.clickAreaRadious = MAX(变量,50);</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-XcodeColorLog" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
