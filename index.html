@@ -488,66 +488,6 @@
 
 
   
-    <article id="post-XcodeColorLog" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/11/XcodeColorLog/" class="article-date">
-      <time datetime="2016-05-11T05:17:07.000Z" itemprop="datePublished">2016-05-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/11/XcodeColorLog/">Xcode 输出多颜色Log</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>每天看着Xcode输出的Log 都是一个颜色，各种信息区分起来很是闹心，如果可以输出多种颜色的Log，区分起来就方便多了。</p>
-<p><strong>XCodeColors</strong>这个插件可以让我们实现输出多颜色的Log。</p>
-<p>安装 XCodeColors，下面两个方式二选一：<br>XCodeColors(github入口)<br>用Alcatraz安装更方便(推荐)<br>![][image1]</p>
-<p>安装完成之后需要在项目中添加以下代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define XCODE_COLORS_ESCAPE @"\033["</span></span><br><span class="line"><span class="comment">#define XCODE_COLORS_RESET_FG  XCODE_COLORS_ESCAPE @"fg;"</span></span><br><span class="line"><span class="comment">#define XCODE_COLORS_RESET_BG  XCODE_COLORS_ESCAPE @"bg;"</span></span><br><span class="line"><span class="comment">#define XCODE_COLORS_RESET     XCODE_COLORS_ESCAPE @";"</span></span><br><span class="line"></span><br><span class="line">//定义输出</span><br><span class="line">//输出异常信息（红色）</span><br><span class="line"><span class="comment">#define LogErrorMsg(msg, ...) NSLog((XCODE_COLORS_ESCAPE  @"fg255,0,0;" msg XCODE_COLORS_RESET), ##__VA_ARGS__)</span></span><br><span class="line">//输出信息（绿色）</span><br><span class="line"><span class="comment">#define LogInfoMsg(msg, ...) NSLog((XCODE_COLORS_ESCAPE @"fg50,205,50;" msg  XCODE_COLORS_RESET), ##__VA_ARGS__)</span></span><br><span class="line">//输出警告信息（黄色）</span><br><span class="line"><span class="comment">#define LogWarningMsg(msg, ...) NSLog((XCODE_COLORS_ESCAPE @"fg255,215,0;" msg XCODE_COLORS_RESET), ##__VA_ARGS__)</span></span><br><span class="line">//觉得不够的话可以再多定义几个</span><br><span class="line">........</span><br></pre></td></tr></table></figure></p>
-<p>友情提示：为了方便在整个项目中使用，可以放在pch文件里</p>
-<p>•使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LogErrorMsg(@<span class="string">"这是error信息"</span>);</span><br><span class="line">LogInfoMsg(@<span class="string">"这里是info信息"</span>);</span><br><span class="line">LogWarningMsg(@<span class="string">"这里是warning信息"</span>);</span><br></pre></td></tr></table></figure></p>
-<p>•效果<br>![][image2]</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-FirstBlog" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -598,6 +538,66 @@
 <p><em>5.安装hexo-deployer-git自动部署发布工具 </em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
 <p><em>6.发布</em><br>测试没问题后，我们就生成静态网页文件发布至我们的Github pages 中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure></p>
 <p>如果这是你的第一次，终端会让你输入Github 的邮箱和密码，正确输入后，骚等片刻，就会把你的博客上传至Github 了。以后在每次把博客写完后，执行一下这个命令就可以直接发布了，灰常苏胡。<br><em>7. 5分钟应该快到了</em><br>是不是很快，恭喜你能走到这一步，你的博客已经完成了，在浏览器中输入<a href="http://dimsky.github.io" target="_blank" rel="external">http://dimsky.github.io</a> 就能够访问了。<br>最后应该是类似这个样子的<br><img src="http://i4.buimg.com/79dc32876ec3bed9.png" alt=""><br>时间有限，这里只说到了简单的博客创建流程，还有很多很好玩的配置与插件。比如说评论、标签、统计等等。慢慢的完善你的专属博客吧。<br><strong>更多</strong><br><a href="https://hexo.io/themes/" target="_blank" rel="external">更多主题</a><br><a href="https://hexo.io/plugins/" target="_blank" rel="external">更多插件</a><br><strong>文章图片的存放</strong><br>　　想要在文章中插入图片的话，可以按照Markdown语法来插入，格式为!【图片名称】(图片地址)。图片的存放有两种方式：在本地D:\Hexo\source<code>目录下新建一个存放图片的文件夹，比如images</code>，然后把想要插入的图片放在里面，插入图片的路径；第二种方法是把图片上传到网络，然后插入图片路径。推荐使用第二种。<br>　　推荐两个比较好用的：<br>•    <a href="http://tuchuang.org/" target="_blank" rel="external">图床</a>；无需注册，方便快捷。<br>•    <a href="https://portal.qiniu.com/signup?code=3lglas6pgi2qa" target="_blank" rel="external">七牛云存储</a>；需要注册，免费，空间大，速度快。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-XcodeColorLog" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/11/XcodeColorLog/" class="article-date">
+      <time datetime="2016-05-11T05:17:07.000Z" itemprop="datePublished">2016-05-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/11/XcodeColorLog/">Xcode 输出多颜色Log</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>每天看着Xcode输出的Log 都是一个颜色，各种信息区分起来很是闹心，如果可以输出多种颜色的Log，区分起来就方便多了。</p>
+<p><strong>XCodeColors</strong>这个插件可以让我们实现输出多颜色的Log。</p>
+<p>安装 XCodeColors，下面两个方式二选一：<br>XCodeColors(github入口)<br>用Alcatraz安装更方便(推荐)<br>![][image1]</p>
+<p>安装完成之后需要在项目中添加以下代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define XCODE_COLORS_ESCAPE @"\033["</span></span><br><span class="line"><span class="comment">#define XCODE_COLORS_RESET_FG  XCODE_COLORS_ESCAPE @"fg;"</span></span><br><span class="line"><span class="comment">#define XCODE_COLORS_RESET_BG  XCODE_COLORS_ESCAPE @"bg;"</span></span><br><span class="line"><span class="comment">#define XCODE_COLORS_RESET     XCODE_COLORS_ESCAPE @";"</span></span><br><span class="line"></span><br><span class="line">//定义输出</span><br><span class="line">//输出异常信息（红色）</span><br><span class="line"><span class="comment">#define LogErrorMsg(msg, ...) NSLog((XCODE_COLORS_ESCAPE  @"fg255,0,0;" msg XCODE_COLORS_RESET), ##__VA_ARGS__)</span></span><br><span class="line">//输出信息（绿色）</span><br><span class="line"><span class="comment">#define LogInfoMsg(msg, ...) NSLog((XCODE_COLORS_ESCAPE @"fg50,205,50;" msg  XCODE_COLORS_RESET), ##__VA_ARGS__)</span></span><br><span class="line">//输出警告信息（黄色）</span><br><span class="line"><span class="comment">#define LogWarningMsg(msg, ...) NSLog((XCODE_COLORS_ESCAPE @"fg255,215,0;" msg XCODE_COLORS_RESET), ##__VA_ARGS__)</span></span><br><span class="line">//觉得不够的话可以再多定义几个</span><br><span class="line">........</span><br></pre></td></tr></table></figure></p>
+<p>友情提示：为了方便在整个项目中使用，可以放在pch文件里</p>
+<p>•使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LogErrorMsg(@<span class="string">"这是error信息"</span>);</span><br><span class="line">LogInfoMsg(@<span class="string">"这里是info信息"</span>);</span><br><span class="line">LogWarningMsg(@<span class="string">"这里是warning信息"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>•效果<br>![][image2]</p>
 
       
     </div>
