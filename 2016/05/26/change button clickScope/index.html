@@ -15,7 +15,7 @@
 <meta property="og:description" content="需求:按钮尺寸不变,按钮能够接收点击事件的范围变大
 分析:
 其实挺简单,WWDC 2012 Session中提到了一种解决方式。它重写了按钮中的pointInside方法,临时改变按钮的Inset来扩大点击事件的接收范围,来判断触摸点是否在按钮的点击热区(接收有效点击事件,触发按钮的点击方法)内12345678//官方在视频中给出的示例源码- (BOOL)pointInside:(CGPoint)">
-<meta property="og:updated_time" content="2016-05-26T11:26:35.000Z">
+<meta property="og:updated_time" content="2016-05-26T11:35:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在不改变按钮尺寸的前提下,扩大按钮的点击范围">
 <meta name="twitter:description" content="需求:按钮尺寸不变,按钮能够接收点击事件的范围变大
@@ -286,8 +286,7 @@
 <p><strong>.m 文件</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "YCBigClickAreaBtn.h"</span></span><br><span class="line"></span><br><span class="line">@implementation YCBigClickAreaBtn</span><br><span class="line"></span><br><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event</span><br><span class="line">&#123;</span><br><span class="line">CGRect bounds = self.bounds;</span><br><span class="line">CGFloat widthDelta = MAX(self.clickAreaRadious - bounds.size.width, 0);</span><br><span class="line">CGFloat heightDelta = MAX(self.clickAreaRadious - bounds.size.height, 0);</span><br><span class="line">bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);</span><br><span class="line"><span class="built_in">return</span> CGRectContainsPoint(bounds, point);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
 <p><strong>调用</strong></p>
-<p>YCBigClickAreaBtn *tickBtn = [[YCBigClickAreaBtn alloc] init];</p>
-<p>//扩大按钮的点击热区,并且保持最小50<br>tickBtn.clickAreaRadious = MAX(变量,50);</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">YCBigClickAreaBtn *tickBtn = [[YCBigClickAreaBtn alloc] init];</span><br><span class="line"></span><br><span class="line">//扩大按钮的点击热区,并且保持最小50</span><br><span class="line">tickBtn.clickAreaRadious = MAX(变量,50);</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -299,7 +298,7 @@
         <p><span>本文标题:</span><a href="/2016/05/26/change button clickScope/">在不改变按钮尺寸的前提下,扩大按钮的点击范围</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Jason</a></p>
         <p><span>发布时间:</span>2016-05-26, 19:22:39</p>
-        <p><span>最后更新:</span>2016-05-26, 19:26:35</p>
+        <p><span>最后更新:</span>2016-05-26, 19:35:50</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/05/26/change button clickScope/" title="在不改变按钮尺寸的前提下,扩大按钮的点击范围">http://yoursite.com/2016/05/26/change button clickScope/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/05/26/change button clickScope/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
