@@ -3,22 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>iOS本地通知UILocalNotification | 零度空间</title>
+  <title>写入号码到手机通讯录 | 零度空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。快捷点赞，如微博点赞功能效果图大家可以先看下：赞.gif首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：1234567891011">
+  <meta name="description" content="code:我自定义一个AddContact类，实现如下
+.h 文件
+123456789#import &amp;lt;UIKit/UIKit.h&amp;gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;@interface AddContact : NSObject+ (void)addContactWithName:(NSString *)name imgName:(NSSt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS本地通知UILocalNotification">
-<meta property="og:url" content="http://yoursite.com/2016/05/12/LocalNotification/index.html">
+<meta property="og:title" content="写入号码到手机通讯录">
+<meta property="og:url" content="http://yoursite.com/2016/05/26/AddContact/index.html">
 <meta property="og:site_name" content="零度空间">
-<meta property="og:description" content="前言推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。快捷点赞，如微博点赞功能效果图大家可以先看下：赞.gif首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：1234567891011">
-<meta property="og:image" content="http://i4.buimg.com/9c564a4d86c8812a.png">
-<meta property="og:image" content="http://i4.buimg.com/6125c11589e67fbc.gif">
-<meta property="og:image" content="http://i4.buimg.com/5b0488e3d8e67f5e.gif">
-<meta property="og:updated_time" content="2016-05-13T10:56:26.000Z">
+<meta property="og:description" content="code:我自定义一个AddContact类，实现如下
+.h 文件
+123456789#import &amp;lt;UIKit/UIKit.h&amp;gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;@interface AddContact : NSObject+ (void)addContactWithName:(NSString *)name imgName:(NSSt">
+<meta property="og:updated_time" content="2016-07-07T06:36:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS本地通知UILocalNotification">
-<meta name="twitter:description" content="前言推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。快捷点赞，如微博点赞功能效果图大家可以先看下：赞.gif首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：1234567891011">
-<meta name="twitter:image" content="http://i4.buimg.com/9c564a4d86c8812a.png">
+<meta name="twitter:title" content="写入号码到手机通讯录">
+<meta name="twitter:description" content="code:我自定义一个AddContact类，实现如下
+.h 文件
+123456789#import &amp;lt;UIKit/UIKit.h&amp;gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;@interface AddContact : NSObject+ (void)addContactWithName:(NSString *)name imgName:(NSSt">
   
     <link rel="alternative" href="/atom.xml" title="零度空间" type="application/atom+xml">
   
@@ -239,11 +241,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-LocalNotification" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-AddContact" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/12/LocalNotification/" class="article-date">
-      <time datetime="2016-05-12T09:32:23.000Z" itemprop="datePublished">2016-05-12</time>
+      <a href="/2016/05/26/AddContact/" class="article-date">
+      <time datetime="2016-05-26T11:22:39.000Z" itemprop="datePublished">2016-05-26</time>
 </a>
     </div>
   
@@ -256,7 +258,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      iOS本地通知UILocalNotification
+      写入号码到手机通讯录
     </h1>
   
 
@@ -273,15 +275,11 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://i4.buimg.com/9c564a4d86c8812a.png" alt=""><br><em>前言</em><br>推送通知，想必大家都很熟悉，关于原理之类的，这里就不过多阐述。在这里我们主要介绍下iOS8及iOS9之后关于推送的新功能。大家可能见过听说过，但可能有一些朋友并没有上手做过。这篇文章便给大家详细介绍推送中的快捷按钮及快捷回复等功能的实现。<br><em>快捷点赞，如微博点赞功能</em><br>效果图大家可以先看下：<br><img src="http://i4.buimg.com/6125c11589e67fbc.gif" alt="">赞.gif<br>首先先说如何为自己的推送添加快捷功能，该Demo中的动作 “赞”，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//创建消息上面要添加的动作</span><br><span class="line">UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];</span><br><span class="line">action1.identifier = kNotificationActionIdentifileStar;</span><br><span class="line">action1.title = @<span class="string">"赞"</span>;</span><br><span class="line">//当点击的时候不启动程序，在后台处理</span><br><span class="line">action1.activationMode = UIUserNotificationActivationModeBackground;</span><br><span class="line">//需要解锁才能处理(意思就是如果在锁屏界面收到通知，并且iPhone设置了屏幕锁，点击了赞不会直接进入我们的回调进行处理，而是需要输入屏幕锁密码之后才进入我们的回调)，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；</span><br><span class="line">action1.authenticationRequired = YES;</span><br><span class="line">/*  destructive属性设置后，在通知栏或锁屏界面左划，按钮颜色会变为红色</span><br><span class="line"> 如果两个按钮均设置为YES，则均为红色（略难看）</span><br><span class="line"> 如果两个按钮均设置为NO，即默认值，则第一个为蓝色，第二个为浅灰色</span><br><span class="line"> 如果一个YES一个NO，则都显示对应的颜色，即红蓝双色 (CP色)。</span><br><span class="line"> */</span><br><span class="line">action1.destructive = NO;</span><br></pre></td></tr></table></figure></p>
-<p>关于参数的意思，上方代码中已经有详细的解释了，那么该动作按钮创建完之后，我们需要的就是创建动作集合，并进行注册，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//创建动作(按钮)的类别集合</span><br><span class="line">UIMutableUserNotificationCategory *category = [[UIMutableUserNotificationCategory alloc] init];</span><br><span class="line">//这组动作的唯一标示（kNotificationCategoryIdentifile为我定义的一个宏，可自行定义）</span><br><span class="line">category.identifier = kNotificationCategoryIdentifile;</span><br><span class="line">//最多支持两个，如果添加更多的话，后面的将被忽略</span><br><span class="line">[category <span class="built_in">set</span>Actions:@[action1, action2] <span class="keyword">for</span>Context:(UIUserNotificationActionContextMinimal)];</span><br><span class="line">//创建UIUserNotificationSettings，并设置消息的显示类类型</span><br><span class="line">UIUserNotificationSettings *uns = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:[NSSet <span class="built_in">set</span>WithObject:category]];</span><br><span class="line"></span><br><span class="line">[[UIApplication sharedApplication] registerUserNotificationSettings:uns];</span><br></pre></td></tr></table></figure></p>
-<p>到这里便能实现推送中快捷点赞的功能了。当然我们还会注意到iPhone中短信有快捷回复功能，这个是怎么实现的呢。 客官请往下继续看。<br><em>快捷回复，如短信中下拉快捷回复功能</em><br>老规矩，还是先上效果图，如下：<br><img src="http://i4.buimg.com/5b0488e3d8e67f5e.gif" alt="">评论.gif<br>这个评论的动作和上面的“赞“只是多了一个属性的设置，即”behavior“。代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//第二个动作</span><br><span class="line">UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];</span><br><span class="line">action2.identifier = kNotificationActionIdentifileComment;</span><br><span class="line">action2.title = @<span class="string">"评论"</span>;</span><br><span class="line">//当点击的时候不启动程序，在后台处理</span><br><span class="line">action2.activationMode = UIUserNotificationActivationModeBackground;</span><br><span class="line">//设置了behavior属性为 UIUserNotificationActionBehaviorTextInput 的话，则点击了该按钮会出现输入框供输入</span><br><span class="line">action2.behavior = UIUserNotificationActionBehaviorTextInput;</span><br></pre></td></tr></table></figure></p>
-<p>细心的朋友可能注意到我在快捷回复输入内容时候，输入框右边的按钮名字和短信的快捷回复按钮名字并不一样（短信的为”发送“，该Demo为”评论“），这个按钮我们也是可以进行自定义的，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//这个字典定义了当点击了评论按钮后，输入框右侧的按钮名称，如果不设置该字典，则右侧按钮名称默认为 “发送”</span><br><span class="line">action2.parameters = @UIUserNotificationTextInputActionButtonTitleKey: @<span class="string">"评论"</span>;</span><br></pre></td></tr></table></figure></p>
-<p>到这里，该Demo的基本功能就已经差不多完全实现了。剩下的就是回调了，回调走的函数便是AppDelegate中的代理方法了，如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 本地通知回调函数，当应用程序在前台时调用</span><br><span class="line">- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification;</span><br><span class="line">//在非本App界面时收到本地消息，下拉消息会有快捷回复的按钮，点击按钮后调用的方法，根据identifier来判断点击的哪个按钮，notification为消息内容</span><br><span class="line">- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier <span class="keyword">for</span>LocalNotification:(UILocalNotification *)notification withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void(^)())completionHandler;</span><br></pre></td></tr></table></figure></p>
-<p>结束语<br>1：以上代码是只注册了本地推送的，远程推送和本地推送类似，推送消息如果要触发快捷动作，则需要在消息本体中含有上面category的identifier标志。如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//这个<span class="string">"Identifile"</span>的需要和你在代码中设置的kNotificationCategoryIdentifile保持一致</span><br><span class="line"><span class="string">"aps"</span>:&#123;<span class="string">"alert"</span>:<span class="string">"test remote notification"</span>, <span class="string">"sound"</span>:<span class="string">"default"</span>, <span class="string">"badge"</span>: 1, <span class="string">"category"</span>:<span class="string">"Identifile"</span>&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2：在码代码时候如果需要兼容低版本的话，请注意在代码中进行版本的判断<br>3：最后奉上<a href="https://github.com/longitachi/LocalNotification" target="_blank" rel="external">Demo</a>地址</p>
-<p><strong>通知回调2种情况：</strong><br><em>1.单机本地通知启动APP</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)application:(UIApplication *)app didFinishLaunchingWithOptions:(NSDictionary *)launchOptions </span><br><span class="line"></span><br><span class="line">    UILocalNotification *<span class="built_in">local</span>Notification =</span><br><span class="line"></span><br><span class="line">        [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">local</span>Notification) </span><br><span class="line"></span><br><span class="line">       //load your controller</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><em>2.应用程序处于活动状态，然后在 AppDelegate 中添加此代码</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   -(void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notification </span><br><span class="line"></span><br><span class="line">        //load your controller</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+        <p><strong>code:</strong><br>我自定义一个AddContact类，实现如下</p>
+<p><strong>.h 文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line"></span><br><span class="line">@interface AddContact : NSObject</span><br><span class="line"></span><br><span class="line">+ (void)addContactWithName:(NSString *)name imgName:(NSString *)imgName phoneNumber:(NSString *)phoneNumStr;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><strong>.m 文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "AddContact.h"</span></span><br><span class="line"><span class="comment">#import &lt;Contacts/Contacts.h&gt;</span></span><br><span class="line"><span class="comment">#import &lt;AddressBook/AddressBook.h&gt;</span></span><br><span class="line"></span><br><span class="line">@implementation AddContact</span><br><span class="line"></span><br><span class="line">+ (void)addContactWithName:(NSString *)name imgName:(NSString *)imgName phoneNumber:(NSString *)phoneNumStr</span><br><span class="line">&#123;</span><br><span class="line">    //系统版本大于等于9.0写入通讯录</span><br><span class="line">    <span class="keyword">if</span> ([UIDevice currentDevice].systemVersion.floatValue&gt;=9.0) &#123;</span><br><span class="line">        </span><br><span class="line">        NSError *error = nil;</span><br><span class="line">        </span><br><span class="line">        CNContactStore *store = [[CNContactStore alloc]init];</span><br><span class="line">        </span><br><span class="line">        NSPredicate *predicate = [CNContact predicateForContactsMatchingName:name];</span><br><span class="line">        </span><br><span class="line">        NSArray *contacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:@[CNContactGivenNameKey] error:&amp;error];</span><br><span class="line">        </span><br><span class="line">        [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (granted&amp;&amp;contacts.count==0) &#123;</span><br><span class="line">                //授权成功</span><br><span class="line">                //创建一个联系人</span><br><span class="line">                CNMutableContact *contact = [[CNMutableContact alloc]init];</span><br><span class="line">                //通讯录姓名</span><br><span class="line">                contact.givenName = name;</span><br><span class="line">                //通讯录头像</span><br><span class="line">                contact.imageData = UIImagePNGRepresentation([UIImage imageNamed:imgName]);</span><br><span class="line">                </span><br><span class="line">                CNLabeledValue *phoneNumber = [CNLabeledValue labeledValueWithLabel:CNLabelPhoneNumberMobile value:[CNPhoneNumber phoneNumberWithStringValue:phoneNumStr]];</span><br><span class="line">                </span><br><span class="line">                contact.phoneNumbers = @[phoneNumber];</span><br><span class="line">                //创建一个保存请求对象</span><br><span class="line">                CNSaveRequest *request = [[CNSaveRequest alloc]init];</span><br><span class="line">                </span><br><span class="line">                [request addContact:contact toContainerWithIdentifier:nil];</span><br><span class="line">                //保存到通讯录</span><br><span class="line">                <span class="keyword">if</span> ([store executeSaveRequest:request error:nil]) &#123;</span><br><span class="line">                    NSLog(@<span class="string">"写入通讯录号码成功"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                //授权失败</span><br><span class="line">                NSLog(@<span class="string">"写入通讯录失败"</span>);</span><br><span class="line">                //                <span class="keyword">if</span> (contacts.count==0) &#123;</span><br><span class="line">                //                    //跳转到通讯录权限设置</span><br><span class="line">                //                    NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];</span><br><span class="line">                //                    <span class="keyword">if</span> ([[UIApplication sharedApplication] canOpenURL:url]) &#123;</span><br><span class="line">                //                        [[UIApplication sharedApplication] openURL:url];</span><br><span class="line">                //                    &#125;</span><br><span class="line">                //                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">    //设备系统版本小于9.0</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        //创建一条记录</span><br><span class="line">        </span><br><span class="line">        ABAddressBookRef addressRef = ABAddressBookCreateWithOptions(nil, nil);</span><br><span class="line">        CFStringRef cfSearchText = (CFStringRef)CFBridgingRetain(name);</span><br><span class="line">        </span><br><span class="line">        NSArray *contacts = CFBridgingRelease(ABAddressBookCopyPeopleWithName(addressRef, cfSearchText));</span><br><span class="line">        CFRelease(cfSearchText);</span><br><span class="line">        </span><br><span class="line">        ABAddressBookRequestAccessWithCompletion(addressRef, ^(bool granted, CFErrorRef error) &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (granted&amp;&amp;contacts.count==0) &#123;</span><br><span class="line">                // 授权成功</span><br><span class="line">                ABRecordRef recordRef= ABPersonCreate();</span><br><span class="line">                </span><br><span class="line">                ABRecordSetValue(recordRef, kABPersonFirstNameProperty, (__bridge CFTypeRef)(name), NULL);//添加名</span><br><span class="line">                </span><br><span class="line">                ABMutableMultiValueRef multiValueRef =ABMultiValueCreateMutable(kABStringPropertyType);//添加设置多值属性</span><br><span class="line">                ABMultiValueAddValueAndLabel(multiValueRef, (__bridge CFStringRef)(phoneNumStr), kABPersonPhoneMobileLabel, NULL);//添加400电话</span><br><span class="line">                ABRecordSetValue(recordRef, kABPersonPhoneProperty, multiValueRef, NULL);</span><br><span class="line">                </span><br><span class="line">                //添加头像</span><br><span class="line">                NSData *dataRef = UIImagePNGRepresentation([UIImage imageNamed:imgName]);</span><br><span class="line">                ABPersonSetImageData(recordRef, (__bridge CFDataRef)dataRef, NULL);</span><br><span class="line">                </span><br><span class="line">                //添加记录</span><br><span class="line">                ABAddressBookAddRecord(addressRef, recordRef, NULL);</span><br><span class="line">                </span><br><span class="line">                //保存通讯录，提交更改</span><br><span class="line">                ABAddressBookSave(addressRef, NULL);</span><br><span class="line">                </span><br><span class="line">                //注意释放各数据</span><br><span class="line">                CFRelease(multiValueRef);</span><br><span class="line">                CFRelease(recordRef);</span><br><span class="line">                CFRelease(addressRef);</span><br><span class="line">                </span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                // 授权失败</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -290,13 +288,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/12/LocalNotification/">iOS本地通知UILocalNotification</a></p>
+        <p><span>本文标题:</span><a href="/2016/05/26/AddContact/">写入号码到手机通讯录</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Jason</a></p>
-        <p><span>发布时间:</span>2016-05-12, 17:32:23</p>
-        <p><span>最后更新:</span>2016-05-13, 18:56:26</p>
+        <p><span>发布时间:</span>2016-05-26, 19:22:39</p>
+        <p><span>最后更新:</span>2016-07-07, 14:36:54</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/12/LocalNotification/" title="iOS本地通知UILocalNotification">http://yoursite.com/2016/05/12/LocalNotification/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/05/12/LocalNotification/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/26/AddContact/" title="写入号码到手机通讯录">http://yoursite.com/2016/05/26/AddContact/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/05/26/AddContact/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -309,15 +307,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/05/12/IB_DESIGNABLE/">
-                    神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)
+                <a href="/2016/05/26/change button clickScope/">
+                    在不改变按钮尺寸的前提下,扩大按钮的点击范围
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/05/11/FirstBlog/">
-                    使用HEXO在github上搭建个人博客
+                <a href="/2016/05/26/XcodeColorLog/">
+                    Xcode 输出多颜色Log
                 </a>
             </div>
         
@@ -385,7 +383,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"iOS本地通知UILocalNotification　| 零度空间　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"写入号码到手机通讯录　| 零度空间　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -401,7 +399,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/12/LocalNotification/" data-title="iOS本地通知UILocalNotification" data-url="http://yoursite.com/2016/05/12/LocalNotification/"></div>
+    <div class="ds-thread" data-thread-key="2016/05/26/AddContact/" data-title="写入号码到手机通讯录" data-url="http://yoursite.com/2016/05/26/AddContact/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -425,7 +423,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/12/IB_DESIGNABLE/" title="上一篇: 神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)">
+            <a href="/2016/05/26/change button clickScope/" title="上一篇: 在不改变按钮尺寸的前提下,扩大按钮的点击范围">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -433,7 +431,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/05/11/FirstBlog/" title="下一篇: 使用HEXO在github上搭建个人博客">
+            <a href="/2016/05/26/XcodeColorLog/" title="下一篇: Xcode 输出多颜色Log">
                 <i class="fa fa-angle-right"></i>
             </a>
         
