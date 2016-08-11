@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  
+  <title>五个案例让你明白GCD死锁 | 零度空间</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="五个案例让你明白GCD死锁死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
+正文
+串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="五个案例让你明白GCD死锁">
+<meta property="og:url" content="http://yoursite.com/2016/08/11/GCD/index.html">
+<meta property="og:site_name" content="零度空间">
+<meta property="og:description" content="五个案例让你明白GCD死锁死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
+正文
+串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面">
+<meta property="og:image" content="http://i4.piimg.com/4851/3284971ad9f529e4.jpg">
+<meta property="og:image" content="http://i4.piimg.com/4851/e297503e95a11cf0.jpg">
+<meta property="og:image" content="http://i4.piimg.com/4851/6b416b0ddcc4f325.jpg">
+<meta property="og:image" content="http://i4.piimg.com/4851/148c73cba348da7b.jpg">
+<meta property="og:image" content="http://i4.piimg.com/4851/1cc86a6749c604e2.jpg">
+<meta property="og:updated_time" content="2016-08-11T04:03:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="五个案例让你明白GCD死锁">
+<meta name="twitter:description" content="五个案例让你明白GCD死锁死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
+正文
+串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面">
+<meta name="twitter:image" content="http://i4.piimg.com/4851/3284971ad9f529e4.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="零度空间" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" rel="stylesheet">
+  
+  
+      <link href="//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css" rel="stylesheet">
+  
+  
+      <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+      <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+  
+  <script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.9/clipboard.min.js"></script>
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false,
+          fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+          scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.0.9/scrollreveal.min.js"
+      }
+  </script>
+
+  
+      <script>
+          yiliaConfig.rootUrl = "/";
+      </script>
+  
+
+  
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Jason</a></h1>
+        </hgroup>
+
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:4234115@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/chenjie1219/" title="GitHub"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/1e204669305c/latest_articles" title="简书"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="tencent://message/?uin=4234115&Site" title="QQ"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于iOS</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Jason</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Jason</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:4234115@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/chenjie1219/" title="GitHub"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/1e204669305c/latest_articles" title="简书"></a>
+                            
+                                <a class="fa QQ" target="_blank" href="tencent://message/?uin=4234115&Site" title="QQ"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-GCD" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/11/GCD/" class="article-date">
+      <time datetime="2016-08-11T03:33:40.000Z" itemprop="datePublished">2016-08-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      五个案例让你明白GCD死锁
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="五个案例让你明白GCD死锁"><a href="#五个案例让你明白GCD死锁" class="headerlink" title="五个案例让你明白GCD死锁"></a>五个案例让你明白GCD死锁</h1><p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
+<p>正文</p>
+<h2 id="串行与并行"><a href="#串行与并行" class="headerlink" title="串行与并行"></a>串行与并行</h2><p>在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做<strong>Dispatch Queue</strong>。然而，存在于两种<strong>Dispatch Queue</strong>，一种是要等待上一个执行完，再执行下一个的<strong>Serial Dispatch Queue</strong>，这叫做串行队列；另一种，则是不需要上一个执行完，就能执行下一个的<strong>Concurrent Dispatch Queue</strong>，叫做并行队列。这两种，均遵循FIFO原则。</p>
+<blockquote>
+<p>举一个简单的例子，在三个任务中输出1、2、3，串行队列输出是有序的1、2、3，但是并行队列的先后顺序就不一定了。</p>
+</blockquote>
+<p>那么，并行队列又是怎么在执行呢？</p>
+<p>虽然可以同时多个任务的处理，但是并行队列的处理量，还是要根据当前系统状态来。如果当前系统状态最多处理2个任务，那么1、2会排在前面，3什么时候操作，就看1或者2谁先完成，然后3接在后面。</p>
+<p>串行和并行就简单说到这里，关于它们的技术点其实还有很多，可以自行了解。</p>
+<h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p>串行与并行针对的是队列，而同步与异步，针对的则是线程。最大的区别在于，同步线程要阻塞当前线程，必须要等待同步线程中的任务执行完，返回以后，才能继续执行下一任务；而异步线程则是不用等待。</p>
+<p>仅凭这几句话还是很难理解，所以之后准备了很多案例，可以边分析边理解。</p>
+<h2 id="GCD-API"><a href="#GCD-API" class="headerlink" title="GCD API"></a>GCD API</h2><p>GCD API很多，这里仅介绍本文用到的。</p>
+<ol>
+<li><p>系统标准提供的两个队列</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 全局队列，也是一个并行队列</span><br><span class="line"></span><br><span class="line">dispatch_get_global_queue</span><br><span class="line"></span><br><span class="line">// 主队列，在主线程中运行，因为主线程只有一个，所以这是一个串行队列</span><br><span class="line"></span><br><span class="line">dispatch_get_main_queue</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>除此之外，还可以自己生成队列</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 从DISPATCH_QUEUE_SERIAL看出，这是串行队列</span><br><span class="line"></span><br><span class="line">dispatch_queue_create(<span class="string">"com.demo.serialQueue"</span>,  DISPATCH_QUEUE_SERIAL)</span><br><span class="line"></span><br><span class="line">// 同理，这是一个并行队列</span><br><span class="line"></span><br><span class="line">dispatch_queue_create(<span class="string">"com.demo.concurrentQueue"</span>,  DISPATCH_QUEUE_CONCURRENT)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>接下来是同步与异步线程的创建：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dispatch_sync(...,  ^(block))  // 同步线程</span><br><span class="line"></span><br><span class="line">dispatch_async(...,  ^(block))  // 异步线程</span><br></pre></td></tr></table></figure></p>
+<h2 id="案例与分析"><a href="#案例与分析" class="headerlink" title="案例与分析"></a>案例与分析</h2><p>假设你已经基本了解了上面提到的知识，接下来进入案例讲解阶段。</p>
+<h4 id="案例一："><a href="#案例一：" class="headerlink" title="案例一："></a>案例一：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@<span class="string">"1"</span>);  // 任务1</span><br><span class="line"></span><br><span class="line">dispatch_sync(dispatch_get_main_queue(),  ^&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"2"</span>);  // 任务2</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"3"</span>);  // 任务3</span><br></pre></td></tr></table></figure>
+<p>结果，控制台输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1</span><br></pre></td></tr></table></figure></p>
+<p>分析：</p>
+<ol>
+<li>dispatch_sync表示是一个同步线程；</li>
+<li>dispatch_get_main_queue表示运行在主线程中的主队列；</li>
+<li>任务2是同步线程的任务。</li>
+</ol>
+<p>首先执行任务1，这是肯定没问题的，只是接下来，程序遇到了同步线程，那么它会进入等待，等待任务2执行完，然后执行任务3。但这是队列，有任务来，当然会将任务加到队尾，然后遵循FIFO原则执行任务。那么，现在任务2就会被加到最后，任务3排在了任务2前面，问题来了：</p>
+<blockquote>
+<p>任务3要等任务2执行完才能执行，任务2由排在任务3后面，意味着任务2要在任务3执行完才能执行，所以他们进入了互相等待的局面。【既然这样，那干脆就卡在这里吧】这就是死锁。</p>
+</blockquote>
+<p><img src="http://i4.piimg.com/4851/3284971ad9f529e4.jpg" alt=""></p>
+<h4 id="案例二："><a href="#案例二：" class="headerlink" title="案例二："></a>案例二：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@<span class="string">"1"</span>);  // 任务1</span><br><span class="line"></span><br><span class="line">dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0),  ^&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"2"</span>);  // 任务2</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"3"</span>);  // 任务3</span><br></pre></td></tr></table></figure>
+<p>结果，控制台输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">3</span><br></pre></td></tr></table></figure></p>
+<p>分析：</p>
+<p>首先执行任务1，接下来会遇到一个同步线程，程序会进入等待。等待任务2执行完成以后，才能继续执行任务3。从dispatch_get_global_queue可以看出，任务2被加入到了全局的并行队列中，当并行队列执行完任务2以后，返回到主队列，继续执行任务3。</p>
+<p><img src="http://i4.piimg.com/4851/e297503e95a11cf0.jpg" alt=""></p>
+<h4 id="案例三："><a href="#案例三：" class="headerlink" title="案例三："></a>案例三：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue  =  dispatch_queue_create(<span class="string">"com.demo.serialQueue"</span>,  DISPATCH_QUEUE_SERIAL);</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"1"</span>);  // 任务1</span><br><span class="line"></span><br><span class="line">dispatch_async(queue,  ^&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"2"</span>);  // 任务2</span><br><span class="line"></span><br><span class="line">    dispatch_sync(queue,  ^&#123;  </span><br><span class="line"></span><br><span class="line">        NSLog(@<span class="string">"3"</span>);  // 任务3</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"4"</span>);  // 任务4</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"5"</span>);  // 任务5</span><br></pre></td></tr></table></figure>
+<p>结果，控制台输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line"></span><br><span class="line">5</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">// 5和2的顺序不一定</span><br></pre></td></tr></table></figure></p>
+<p>分析：</p>
+<p>这个案例没有使用系统提供的串行或并行队列，而是自己通过dispatch_queue_create函数创建了一个DISPATCH_QUEUE_SERIAL的串行队列。</p>
+<ol>
+<li>执行任务1；</li>
+<li>遇到异步线程，将【任务2、同步线程、任务4】加入串行队列中。因为是异步线程，所以在主线程中的任务5不必等待异步线程中的所有任务完成；</li>
+<li>因为任务5不必等待，所以2和5的输出顺序不能确定；</li>
+<li>任务2执行完以后，遇到同步线程，这时，将任务3加入串行队列；</li>
+<li>又因为任务4比任务3早加入<strong>串行队列</strong>，所以，任务3要等待任务4完成以后，才能执行。但是任务3所在的同步线程会阻塞，所以任务4必须等任务3执行完以后再执行。这就又陷入了无限的等待中，造成死锁。</li>
+</ol>
+<p><img src="http://i4.piimg.com/4851/6b416b0ddcc4f325.jpg" alt=""></p>
+<h4 id="案例四："><a href="#案例四：" class="headerlink" title="案例四："></a>案例四：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@<span class="string">"1"</span>);  // 任务1</span><br><span class="line"></span><br><span class="line">dispatch_async(dispatch_get_global_queue(0,  0),  ^&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"2"</span>);  // 任务2</span><br><span class="line"></span><br><span class="line">    dispatch_sync(dispatch_get_main_queue(),  ^&#123;</span><br><span class="line"></span><br><span class="line">        NSLog(@<span class="string">"3"</span>);  // 任务3</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"4"</span>);  // 任务4</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"5"</span>);  // 任务5</span><br></pre></td></tr></table></figure>
+<p>结果，控制台输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">5</span><br><span class="line"></span><br><span class="line">3</span><br><span class="line"></span><br><span class="line">4</span><br><span class="line"></span><br><span class="line">// 5和2的顺序不一定</span><br></pre></td></tr></table></figure></p>
+<p>分析：</p>
+<p>首先，将【任务1、异步线程、任务5】加入Main Queue中，异步线程中的任务是：【任务2、同步线程、任务4】。</p>
+<p>所以，先执行任务1，然后将异步线程中的任务加入到Global Queue中，因为异步线程，所以任务5不用等待，结果就是2和5的输出顺序不一定。</p>
+<p>然后再看异步线程中的任务执行顺序。任务2执行完以后，遇到同步线程。将同步线程中的任务加入到Main Queue中，这时加入的任务3在任务5的后面。</p>
+<p>当任务3执行完以后，没有了阻塞，程序继续执行任务4。</p>
+<p>从以上的分析来看，得到的几个结果：1最先执行；2和5顺序不一定；4一定在3后面。</p>
+<p><img src="http://i4.piimg.com/4851/148c73cba348da7b.jpg" alt=""></p>
+<h4 id="案例五："><a href="#案例五：" class="headerlink" title="案例五："></a>案例五：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(dispatch_get_global_queue(0,  0),  ^&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"1"</span>);  // 任务1</span><br><span class="line"></span><br><span class="line">    dispatch_sync(dispatch_get_main_queue(),  ^&#123;</span><br><span class="line"></span><br><span class="line">        NSLog(@<span class="string">"2"</span>);  // 任务2</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"3"</span>);  // 任务3</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"4"</span>);  // 任务4</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>  (1)  &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"5"</span>);  // 任务5</span><br></pre></td></tr></table></figure>
+<p>结果，控制台输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line"></span><br><span class="line">4</span><br><span class="line"></span><br><span class="line">// 1和4的顺序不一定</span><br></pre></td></tr></table></figure></p>
+<p>分析：</p>
+<p>和上面几个案例的分析类似，先来看看都有哪些任务加入了Main Queue：【异步线程、任务4、死循环、任务5】。</p>
+<p>在加入到Global Queue异步线程中的任务有：【任务1、同步线程、任务3】。</p>
+<p>第一个就是异步线程，任务4不用等待，所以结果任务1和任务4顺序不一定。</p>
+<p>任务4完成后，程序进入死循环，Main Queue阻塞。但是加入到Global Queue的异步线程不受影响，继续执行任务1后面的同步线程。</p>
+<p>同步线程中，将任务2加入到了主线程，并且，任务3等待任务2完成以后才能执行。这时的主线程，已经被死循环阻塞了。所以任务2无法执行，当然任务3也无法执行，在死循环后的任务5也不会执行。</p>
+<p>最终，只能得到1和4顺序不定的结果。</p>
+<p><img src="http://i4.piimg.com/4851/1cc86a6749c604e2.jpg" alt=""></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/11/GCD/">五个案例让你明白GCD死锁</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Jason</a></p>
+        <p><span>发布时间:</span>2016-08-11, 11:33:40</p>
+        <p><span>最后更新:</span>2016-08-11, 12:03:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/11/GCD/" title="五个案例让你明白GCD死锁">http://yoursite.com/2016/08/11/GCD/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/08/11/GCD/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/05/26/change button clickScope/">
+                    在不改变按钮尺寸的前提下,扩大按钮的点击范围
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#五个案例让你明白GCD死锁"><span class="toc-number">1.</span> <span class="toc-text">五个案例让你明白GCD死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#串行与并行"><span class="toc-number">1.1.</span> <span class="toc-text">串行与并行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步与异步"><span class="toc-number">1.2.</span> <span class="toc-text">同步与异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD-API"><span class="toc-number">1.3.</span> <span class="toc-text">GCD API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例与分析"><span class="toc-number">1.4.</span> <span class="toc-text">案例与分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一："><span class="toc-number">1.4.0.1.</span> <span class="toc-text">案例一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二："><span class="toc-number">1.4.0.2.</span> <span class="toc-text">案例二：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三："><span class="toc-number">1.4.0.3.</span> <span class="toc-text">案例三：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四："><span class="toc-number">1.4.0.4.</span> <span class="toc-text">案例四：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五："><span class="toc-number">1.4.0.5.</span> <span class="toc-text">案例五：</span></a></li></ol></li></ol></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"五个案例让你明白GCD死锁　| 零度空间　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/08/11/GCD/" data-title="五个案例让你明白GCD死锁" data-url="http://yoursite.com/2016/08/11/GCD/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"chenjie1219"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://chenjie1219.github.io/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/05/26/change button clickScope/" title="下一篇: 在不改变按钮尺寸的前提下,扩大按钮的点击范围">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/11/GCD/">五个案例让你明白GCD死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/26/change button clickScope/">在不改变按钮尺寸的前提下,扩大按钮的点击范围</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/26/AddContact/">写入号码到手机通讯录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/26/XcodeColorLog/">Xcode 输出多颜色Log</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/26/tableView expand/">iOS tableview的展开与收缩</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/26/NSArray Remove duplicate/">iOS去除数组中重复数据的几种方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/IB_DESIGNABLE/">神奇的IB_DESIGNABLE和IBInspectable(xib中设置圆角)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/LocalNotification/">iOS本地通知UILocalNotification</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/11/FirstBlog/">使用HEXO在github上搭建个人博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 Jason
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.1.22/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+    <script src="//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
