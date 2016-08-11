@@ -5,27 +5,27 @@
   
   <title>五个案例让你明白GCD死锁 | 零度空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="五个案例让你明白GCD死锁死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
+  <meta name="description" content="死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
 正文
-串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面">
+串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做Dispa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="五个案例让你明白GCD死锁">
 <meta property="og:url" content="http://yoursite.com/2016/08/11/GCD/index.html">
 <meta property="og:site_name" content="零度空间">
-<meta property="og:description" content="五个案例让你明白GCD死锁死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
+<meta property="og:description" content="死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
 正文
-串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面">
+串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做Dispa">
 <meta property="og:image" content="http://i4.piimg.com/4851/3284971ad9f529e4.jpg">
 <meta property="og:image" content="http://i4.piimg.com/4851/e297503e95a11cf0.jpg">
 <meta property="og:image" content="http://i4.piimg.com/4851/6b416b0ddcc4f325.jpg">
 <meta property="og:image" content="http://i4.piimg.com/4851/148c73cba348da7b.jpg">
 <meta property="og:image" content="http://i4.piimg.com/4851/1cc86a6749c604e2.jpg">
-<meta property="og:updated_time" content="2016-08-11T04:03:27.000Z">
+<meta property="og:updated_time" content="2016-08-11T04:07:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="五个案例让你明白GCD死锁">
-<meta name="twitter:description" content="五个案例让你明白GCD死锁死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
+<meta name="twitter:description" content="死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。
 正文
-串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面">
+串行与并行在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做Dispa">
 <meta name="twitter:image" content="http://i4.piimg.com/4851/3284971ad9f529e4.jpg">
   
     <link rel="alternative" href="/atom.xml" title="零度空间" type="application/atom+xml">
@@ -281,7 +281,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="五个案例让你明白GCD死锁"><a href="#五个案例让你明白GCD死锁" class="headerlink" title="五个案例让你明白GCD死锁"></a>五个案例让你明白GCD死锁</h1><p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
+        <p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
 <p>正文</p>
 <h2 id="串行与并行"><a href="#串行与并行" class="headerlink" title="串行与并行"></a>串行与并行</h2><p>在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做<strong>Dispatch Queue</strong>。然而，存在于两种<strong>Dispatch Queue</strong>，一种是要等待上一个执行完，再执行下一个的<strong>Serial Dispatch Queue</strong>，这叫做串行队列；另一种，则是不需要上一个执行完，就能执行下一个的<strong>Concurrent Dispatch Queue</strong>，叫做并行队列。这两种，均遵循FIFO原则。</p>
 <blockquote>
@@ -363,7 +363,7 @@
         <p><span>本文标题:</span><a href="/2016/08/11/GCD/">五个案例让你明白GCD死锁</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Jason</a></p>
         <p><span>发布时间:</span>2016-08-11, 11:33:40</p>
-        <p><span>最后更新:</span>2016-08-11, 12:03:27</p>
+        <p><span>最后更新:</span>2016-08-11, 12:07:36</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/08/11/GCD/" title="五个案例让你明白GCD死锁">http://yoursite.com/2016/08/11/GCD/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/08/11/GCD/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -392,7 +392,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#五个案例让你明白GCD死锁"><span class="toc-number">1.</span> <span class="toc-text">五个案例让你明白GCD死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#串行与并行"><span class="toc-number">1.1.</span> <span class="toc-text">串行与并行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步与异步"><span class="toc-number">1.2.</span> <span class="toc-text">同步与异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD-API"><span class="toc-number">1.3.</span> <span class="toc-text">GCD API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例与分析"><span class="toc-number">1.4.</span> <span class="toc-text">案例与分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一："><span class="toc-number">1.4.0.1.</span> <span class="toc-text">案例一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二："><span class="toc-number">1.4.0.2.</span> <span class="toc-text">案例二：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三："><span class="toc-number">1.4.0.3.</span> <span class="toc-text">案例三：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四："><span class="toc-number">1.4.0.4.</span> <span class="toc-text">案例四：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五："><span class="toc-number">1.4.0.5.</span> <span class="toc-text">案例五：</span></a></li></ol></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#串行与并行"><span class="toc-number">1.</span> <span class="toc-text">串行与并行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步与异步"><span class="toc-number">2.</span> <span class="toc-text">同步与异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD-API"><span class="toc-number">3.</span> <span class="toc-text">GCD API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例与分析"><span class="toc-number">4.</span> <span class="toc-text">案例与分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一："><span class="toc-number">4.0.1.</span> <span class="toc-text">案例一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二："><span class="toc-number">4.0.2.</span> <span class="toc-text">案例二：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三："><span class="toc-number">4.0.3.</span> <span class="toc-text">案例三：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四："><span class="toc-number">4.0.4.</span> <span class="toc-text">案例四：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五："><span class="toc-number">4.0.5.</span> <span class="toc-text">案例五：</span></a></li></ol></li></ol></li></ol>
 </div>
 <style>
     .left-col .switch-btn {

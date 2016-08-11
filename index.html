@@ -268,7 +268,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="五个案例让你明白GCD死锁"><a href="#五个案例让你明白GCD死锁" class="headerlink" title="五个案例让你明白GCD死锁"></a>五个案例让你明白GCD死锁</h1><p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
+        <p>死锁一直都是在使用多线程时，需要注意的一个问题。以前对同步、异步，串行、并行只有一个模糊的概念，想想也是时候整理一下了。再看看之前的博客，已经很久没有干货了【说得好像之前有干货一样】，所以，这篇博客，我尽最大努力，也借鉴了很多其他博客中的例子，来讲解GCD死锁问题。</p>
 <p>正文</p>
 <h2 id="串行与并行"><a href="#串行与并行" class="headerlink" title="串行与并行"></a>串行与并行</h2><p>在使用GCD的时候，我们会把需要处理的任务放到Block中，然后将任务追加到相应的队列里面，这个队列，叫做<strong>Dispatch Queue</strong>。然而，存在于两种<strong>Dispatch Queue</strong>，一种是要等待上一个执行完，再执行下一个的<strong>Serial Dispatch Queue</strong>，这叫做串行队列；另一种，则是不需要上一个执行完，就能执行下一个的<strong>Concurrent Dispatch Queue</strong>，叫做并行队列。这两种，均遵循FIFO原则。</p>
 <blockquote>
