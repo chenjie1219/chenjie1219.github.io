@@ -241,6 +241,109 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Mac搭建nginx+rtmp服务器" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/30/Mac搭建nginx+rtmp服务器/" class="article-date">
+      <time datetime="2016-11-30T06:36:26.000Z" itemprop="datePublished">2016-11-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/30/Mac搭建nginx+rtmp服务器/">Mac搭建nginx+rtmp服务器</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>nginx是非常优秀的开源服务器，用它来做hls或者rtmp流媒体服务器是非常不错的选择，本人在网上整理了安装流程，分享给大家并且作备忘。</p>
+<h4 id="一、安装Homebrew"><a href="#一、安装Homebrew" class="headerlink" title="一、安装Homebrew"></a>一、安装Homebrew</h4><p>已经安装了brew的可以直接跳过这一步。<br>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<p>如果已经安装过，而想要卸载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="二、安装nginx"><a href="#二、安装nginx" class="headerlink" title="二、安装nginx"></a>二、安装nginx</h4><p>先glone nginx项目到本地：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap homebrew/nginx</span><br></pre></td></tr></table></figure>
+<p>执行安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx-full --with-rtmp-module</span><br></pre></td></tr></table></figure>
+<p>安装过程比较缓慢，耐心等待<br>通过操作以上步骤nginx和rtmp模块就安装好了，下面开始来配置nginx的rtmp模块</p>
+<p>首先来看看我们的nginx安装在哪里了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew info nginx-full</span><br></pre></td></tr></table></figure>
+<p>执行上面的命令后我们可以看到信息</p>
+<p><img src="http://p1.bqimg.com/4851/47c45bddc81ecd9a.png" alt=""><br>nginx基本信息.01</p>
+<p>nginx安装所在位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/Cellar/nginx-full/1.10.1/bin/nginx</span><br></pre></td></tr></table></figure>
+<p>nginx配置文件所在位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h4 id="三、运行nginx"><a href="#三、运行nginx" class="headerlink" title="三、运行nginx"></a>三、运行nginx</h4><p>执行命令 ，测试下是否能成功启动nginx服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx</span><br></pre></td></tr></table></figure>
+<p>命令行如下图所示</p>
+<p>在浏览器地址栏输入：<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080</a> （直接点击）<br>如果出现</p>
+<p><img src="http://p1.bqimg.com/4851/b682de542f5d70ba.png" alt=""><br>Welcome to nginx!.02</p>
+<p>代表nginx安装成功了</p>
+<p>如果终端上提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx: [emerg] bind() to 0.0.0.0:8080 failed (48: Address already in use)</span><br></pre></td></tr></table></figure>
+<p>则表示8080<br>端口被占用了, 查看端口PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i tcp:8080</span><br></pre></td></tr></table></figure>
+<p>kill掉占用8080端口的PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill 9603（这里替换成占用8080端口的PID）</span><br></pre></td></tr></table></figure>
+<p>然后重新执行nginx</p>
+<p>nginx常用方法：重新加载配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<p>重新加载日志:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reopen</span><br></pre></td></tr></table></figure>
+<p>// 停止 nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop</span><br></pre></td></tr></table></figure>
+<p>// 有序退出 nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s quit</span><br></pre></td></tr></table></figure>
+<h4 id="四、配置rtmp"><a href="#四、配置rtmp" class="headerlink" title="四、配置rtmp"></a>四、配置rtmp</h4><p>现在我们来修改nginx.conf这个配置文件，配置rtmp<br>复制nginx配置文件所在位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>打开Finder Shift + command + G前往，用记事本工具打开nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在http节点后面加上rtmp配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">rtmp &#123;</span><br><span class="line"></span><br><span class="line">  server &#123;</span><br><span class="line">      listen 1935;</span><br><span class="line"></span><br><span class="line">    #直播流配置</span><br><span class="line">      application rtmplive &#123;</span><br><span class="line">          live on;</span><br><span class="line">      #为 rtmp 引擎设置最大连接数。默认为 off</span><br><span class="line">      max_connections 1024;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">      application hls&#123;</span><br><span class="line"></span><br><span class="line">          live on;</span><br><span class="line">          hls on;</span><br><span class="line">          hls_path /usr/local/var/www/hls;</span><br><span class="line">          hls_fragment 1s;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="六、安装ffmepg工具"><a href="#六、安装ffmepg工具" class="headerlink" title="六、安装ffmepg工具"></a>六、安装ffmepg工具</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
+<p>安装这个需要等一段时间等待吧 然后准备一个视频文件作为来推流，然后我们在安装一个支持rtmp协议的视频播放器，Mac下可以用VLC<br><img src="http://p1.bqimg.com/4851/b0e05f29b61dea03.png" alt=""><br>VLC.03</p>
+<p>显示下图表示ffmpeg安装完毕</p>
+<p><img src="http://p1.bqimg.com/4851/5da9875306c2fedb.png" alt=""><br>ffmpeg安装完毕0.4</p>
+<p>ffmepg 安装完成后可以开始推流了</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-GCD" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">

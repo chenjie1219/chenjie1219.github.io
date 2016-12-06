@@ -3,24 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>在不改变按钮尺寸的前提下,扩大按钮的点击范围 | 零度空间</title>
+  <title>Mac搭建nginx+rtmp服务器 | 零度空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="需求:按钮尺寸不变,按钮能够接收点击事件的范围变大
-分析:
-其实挺简单,WWDC 2012 Session中提到了一种解决方式。它重写了按钮中的pointInside方法,临时改变按钮的Inset来扩大点击事件的接收范围,来判断触摸点是否在按钮的点击热区(接收有效点击事件,触发按钮的点击方法)内12345678//官方在视频中给出的示例源码- (BOOL)pointInside:(CGPoint)">
+  <meta name="description" content="简介nginx是非常优秀的开源服务器，用它来做hls或者rtmp流媒体服务器是非常不错的选择，本人在网上整理了安装流程，分享给大家并且作备忘。
+一、安装Homebrew已经安装了brew的可以直接跳过这一步。执行命令
+1ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/insta">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在不改变按钮尺寸的前提下,扩大按钮的点击范围">
-<meta property="og:url" content="http://yoursite.com/2016/05/26/change button clickScope/index.html">
+<meta property="og:title" content="Mac搭建nginx+rtmp服务器">
+<meta property="og:url" content="http://yoursite.com/2016/11/30/Mac搭建nginx+rtmp服务器/index.html">
 <meta property="og:site_name" content="零度空间">
-<meta property="og:description" content="需求:按钮尺寸不变,按钮能够接收点击事件的范围变大
-分析:
-其实挺简单,WWDC 2012 Session中提到了一种解决方式。它重写了按钮中的pointInside方法,临时改变按钮的Inset来扩大点击事件的接收范围,来判断触摸点是否在按钮的点击热区(接收有效点击事件,触发按钮的点击方法)内12345678//官方在视频中给出的示例源码- (BOOL)pointInside:(CGPoint)">
-<meta property="og:updated_time" content="2016-05-26T11:35:50.000Z">
+<meta property="og:description" content="简介nginx是非常优秀的开源服务器，用它来做hls或者rtmp流媒体服务器是非常不错的选择，本人在网上整理了安装流程，分享给大家并且作备忘。
+一、安装Homebrew已经安装了brew的可以直接跳过这一步。执行命令
+1ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/insta">
+<meta property="og:image" content="http://p1.bqimg.com/4851/47c45bddc81ecd9a.png">
+<meta property="og:image" content="http://p1.bqimg.com/4851/b682de542f5d70ba.png">
+<meta property="og:image" content="http://p1.bqimg.com/4851/b0e05f29b61dea03.png">
+<meta property="og:image" content="http://p1.bqimg.com/4851/5da9875306c2fedb.png">
+<meta property="og:updated_time" content="2016-12-06T06:29:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在不改变按钮尺寸的前提下,扩大按钮的点击范围">
-<meta name="twitter:description" content="需求:按钮尺寸不变,按钮能够接收点击事件的范围变大
-分析:
-其实挺简单,WWDC 2012 Session中提到了一种解决方式。它重写了按钮中的pointInside方法,临时改变按钮的Inset来扩大点击事件的接收范围,来判断触摸点是否在按钮的点击热区(接收有效点击事件,触发按钮的点击方法)内12345678//官方在视频中给出的示例源码- (BOOL)pointInside:(CGPoint)">
+<meta name="twitter:title" content="Mac搭建nginx+rtmp服务器">
+<meta name="twitter:description" content="简介nginx是非常优秀的开源服务器，用它来做hls或者rtmp流媒体服务器是非常不错的选择，本人在网上整理了安装流程，分享给大家并且作备忘。
+一、安装Homebrew已经安装了brew的可以直接跳过这一步。执行命令
+1ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/insta">
+<meta name="twitter:image" content="http://p1.bqimg.com/4851/47c45bddc81ecd9a.png">
   
     <link rel="alternative" href="/atom.xml" title="零度空间" type="application/atom+xml">
   
@@ -241,11 +246,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-change button clickScope" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Mac搭建nginx+rtmp服务器" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/26/change button clickScope/" class="article-date">
-      <time datetime="2016-05-26T11:22:39.000Z" itemprop="datePublished">2016-05-26</time>
+      <a href="/2016/11/30/Mac搭建nginx+rtmp服务器/" class="article-date">
+      <time datetime="2016-11-30T06:36:26.000Z" itemprop="datePublished">2016-11-30</time>
 </a>
     </div>
   
@@ -258,7 +263,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      在不改变按钮尺寸的前提下,扩大按钮的点击范围
+      Mac搭建nginx+rtmp服务器
     </h1>
   
 
@@ -275,18 +280,56 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><strong>需求:</strong><br>按钮尺寸不变,按钮能够接收点击事件的范围变大</p>
-<p><strong>分析:</strong></p>
-<p>其实挺简单,WWDC 2012 Session中提到了一种解决方式。它重写了按钮中的pointInside方法,临时改变按钮的Inset来扩大点击事件的接收范围,来判断触摸点是否在按钮的点击热区(接收有效点击事件,触发按钮的点击方法)内<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//官方在视频中给出的示例源码</span><br><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)withEvent</span><br><span class="line">&#123;</span><br><span class="line">CGFloat widthDelta = 44.0 - bounds.size.width;</span><br><span class="line">CGFloat heightDelta = 44.0 - bounds.size.height;</span><br><span class="line">bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);</span><br><span class="line"><span class="built_in">return</span> CGRectContainsPoint(bounds, point);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>44是人机交互设计指南推荐的点击范围,不过既然要改,咱们就改自由点,由咱们来控制多好</p>
-<p>分析完了,开撸</p>
-<p><strong>code:</strong><br>我自定义一个按钮类YCBigClickAreaBtn,实现如下</p>
-<p><strong>.h 文件</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"></span><br><span class="line">@interface YCBigClickAreaBtn : UIButton</span><br><span class="line"></span><br><span class="line">/// 1.想要放大 btn 的点击热区的范围,注意,只在 btn 的父视图范围内有效</span><br><span class="line">/// 2.这个范围是按钮的整体宽度,如果需要以中心点开始计算,则需要*2</span><br><span class="line">@property (nonatomic,assign) CGFloat clickAreaRadious;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p><strong>.m 文件</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import "YCBigClickAreaBtn.h"</span></span><br><span class="line"></span><br><span class="line">@implementation YCBigClickAreaBtn</span><br><span class="line"></span><br><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event</span><br><span class="line">&#123;</span><br><span class="line">CGRect bounds = self.bounds;</span><br><span class="line">CGFloat widthDelta = MAX(self.clickAreaRadious - bounds.size.width, 0);</span><br><span class="line">CGFloat heightDelta = MAX(self.clickAreaRadious - bounds.size.height, 0);</span><br><span class="line">bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);</span><br><span class="line"><span class="built_in">return</span> CGRectContainsPoint(bounds, point);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p><strong>调用</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">YCBigClickAreaBtn *tickBtn = [[YCBigClickAreaBtn alloc] init];</span><br><span class="line"></span><br><span class="line">//扩大按钮的点击热区,并且保持最小50</span><br><span class="line">tickBtn.clickAreaRadious = MAX(变量,50);</span><br></pre></td></tr></table></figure>
+        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>nginx是非常优秀的开源服务器，用它来做hls或者rtmp流媒体服务器是非常不错的选择，本人在网上整理了安装流程，分享给大家并且作备忘。</p>
+<h4 id="一、安装Homebrew"><a href="#一、安装Homebrew" class="headerlink" title="一、安装Homebrew"></a>一、安装Homebrew</h4><p>已经安装了brew的可以直接跳过这一步。<br>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<p>如果已经安装过，而想要卸载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="二、安装nginx"><a href="#二、安装nginx" class="headerlink" title="二、安装nginx"></a>二、安装nginx</h4><p>先glone nginx项目到本地：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap homebrew/nginx</span><br></pre></td></tr></table></figure>
+<p>执行安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx-full --with-rtmp-module</span><br></pre></td></tr></table></figure>
+<p>安装过程比较缓慢，耐心等待<br>通过操作以上步骤nginx和rtmp模块就安装好了，下面开始来配置nginx的rtmp模块</p>
+<p>首先来看看我们的nginx安装在哪里了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew info nginx-full</span><br></pre></td></tr></table></figure>
+<p>执行上面的命令后我们可以看到信息</p>
+<p><img src="http://p1.bqimg.com/4851/47c45bddc81ecd9a.png" alt=""><br>nginx基本信息.01</p>
+<p>nginx安装所在位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/Cellar/nginx-full/1.10.1/bin/nginx</span><br></pre></td></tr></table></figure>
+<p>nginx配置文件所在位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h4 id="三、运行nginx"><a href="#三、运行nginx" class="headerlink" title="三、运行nginx"></a>三、运行nginx</h4><p>执行命令 ，测试下是否能成功启动nginx服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx</span><br></pre></td></tr></table></figure>
+<p>命令行如下图所示</p>
+<p>在浏览器地址栏输入：<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080</a> （直接点击）<br>如果出现</p>
+<p><img src="http://p1.bqimg.com/4851/b682de542f5d70ba.png" alt=""><br>Welcome to nginx!.02</p>
+<p>代表nginx安装成功了</p>
+<p>如果终端上提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx: [emerg] bind() to 0.0.0.0:8080 failed (48: Address already in use)</span><br></pre></td></tr></table></figure>
+<p>则表示8080<br>端口被占用了, 查看端口PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i tcp:8080</span><br></pre></td></tr></table></figure>
+<p>kill掉占用8080端口的PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill 9603（这里替换成占用8080端口的PID）</span><br></pre></td></tr></table></figure>
+<p>然后重新执行nginx</p>
+<p>nginx常用方法：重新加载配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<p>重新加载日志:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reopen</span><br></pre></td></tr></table></figure>
+<p>// 停止 nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop</span><br></pre></td></tr></table></figure>
+<p>// 有序退出 nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s quit</span><br></pre></td></tr></table></figure>
+<h4 id="四、配置rtmp"><a href="#四、配置rtmp" class="headerlink" title="四、配置rtmp"></a>四、配置rtmp</h4><p>现在我们来修改nginx.conf这个配置文件，配置rtmp<br>复制nginx配置文件所在位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>打开Finder Shift + command + G前往，用记事本工具打开nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在http节点后面加上rtmp配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">rtmp &#123;</span><br><span class="line"></span><br><span class="line">  server &#123;</span><br><span class="line">      listen 1935;</span><br><span class="line"></span><br><span class="line">    #直播流配置</span><br><span class="line">      application rtmplive &#123;</span><br><span class="line">          live on;</span><br><span class="line">      #为 rtmp 引擎设置最大连接数。默认为 off</span><br><span class="line">      max_connections 1024;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">      application hls&#123;</span><br><span class="line"></span><br><span class="line">          live on;</span><br><span class="line">          hls on;</span><br><span class="line">          hls_path /usr/local/var/www/hls;</span><br><span class="line">          hls_fragment 1s;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="六、安装ffmepg工具"><a href="#六、安装ffmepg工具" class="headerlink" title="六、安装ffmepg工具"></a>六、安装ffmepg工具</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
+<p>安装这个需要等一段时间等待吧 然后准备一个视频文件作为来推流，然后我们在安装一个支持rtmp协议的视频播放器，Mac下可以用VLC<br><img src="http://p1.bqimg.com/4851/b0e05f29b61dea03.png" alt=""><br>VLC.03</p>
+<p>显示下图表示ffmpeg安装完毕</p>
+<p><img src="http://p1.bqimg.com/4851/5da9875306c2fedb.png" alt=""><br>ffmpeg安装完毕0.4</p>
+<p>ffmepg 安装完成后可以开始推流了</p>
 
       
     </div>
@@ -295,13 +338,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/26/change button clickScope/">在不改变按钮尺寸的前提下,扩大按钮的点击范围</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/30/Mac搭建nginx+rtmp服务器/">Mac搭建nginx+rtmp服务器</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Jason</a></p>
-        <p><span>发布时间:</span>2016-05-26, 19:22:39</p>
-        <p><span>最后更新:</span>2016-05-26, 19:35:50</p>
+        <p><span>发布时间:</span>2016-11-30, 14:36:26</p>
+        <p><span>最后更新:</span>2016-12-06, 14:29:54</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/26/change button clickScope/" title="在不改变按钮尺寸的前提下,扩大按钮的点击范围">http://yoursite.com/2016/05/26/change button clickScope/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/05/26/change button clickScope/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/30/Mac搭建nginx+rtmp服务器/" title="Mac搭建nginx+rtmp服务器">http://yoursite.com/2016/11/30/Mac搭建nginx+rtmp服务器/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/11/30/Mac搭建nginx+rtmp服务器/　　作者: Jason" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -313,16 +356,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/08/11/GCD/">
-                    五个案例让你明白GCD死锁
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/05/26/AddContact/">
-                    写入号码到手机通讯录
+                <a href="/2016/08/11/GCD/">
+                    五个案例让你明白GCD死锁
                 </a>
             </div>
         
@@ -333,7 +370,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一、安装Homebrew"><span class="toc-number">2.</span> <span class="toc-text">一、安装Homebrew</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、安装nginx"><span class="toc-number">3.</span> <span class="toc-text">二、安装nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、运行nginx"><span class="toc-number">4.</span> <span class="toc-text">三、运行nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、配置rtmp"><span class="toc-number">5.</span> <span class="toc-text">四、配置rtmp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#六、安装ffmepg工具"><span class="toc-number">6.</span> <span class="toc-text">六、安装ffmepg工具</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -390,7 +427,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"在不改变按钮尺寸的前提下,扩大按钮的点击范围　| 零度空间　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"Mac搭建nginx+rtmp服务器　| 零度空间　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -406,7 +443,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/26/change button clickScope/" data-title="在不改变按钮尺寸的前提下,扩大按钮的点击范围" data-url="http://yoursite.com/2016/05/26/change button clickScope/"></div>
+    <div class="ds-thread" data-thread-key="2016/11/30/Mac搭建nginx+rtmp服务器/" data-title="Mac搭建nginx+rtmp服务器" data-url="http://yoursite.com/2016/11/30/Mac搭建nginx+rtmp服务器/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -430,15 +467,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/08/11/GCD/" title="上一篇: 五个案例让你明白GCD死锁">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/05/26/AddContact/" title="下一篇: 写入号码到手机通讯录">
+            <a href="/2016/08/11/GCD/" title="下一篇: 五个案例让你明白GCD死锁">
                 <i class="fa fa-angle-right"></i>
             </a>
         
